@@ -5,8 +5,8 @@ Python Tools for Analyzing Neuron Morphology
 
 To install from `pip`:
 
-`pip install nmeasure`
+	`pip install nmeasure`
 
 To install from source:
 
-TODO
+	TODO
