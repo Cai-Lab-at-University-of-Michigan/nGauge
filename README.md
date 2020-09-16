@@ -15,4 +15,4 @@
 
 ## License
 
-This code is 
+This code is licensed under the GNU General Public License v3.0, a copy of which is available in [LICENSE](LICENSE).
