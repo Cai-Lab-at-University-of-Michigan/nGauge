@@ -3,6 +3,7 @@ import numpy as np
 
 from ngauge import __num_types__
 
+
 class TracingPoint:
     """A class which defines a (X,Y,Z,R,T) tuple representing one point of a SWC file.
 

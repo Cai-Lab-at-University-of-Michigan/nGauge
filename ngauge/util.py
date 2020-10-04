@@ -7,6 +7,7 @@ import numpy as np
 
 __num_types__ = set([float, int])
 
+
 def rotation_matrix(a, b, c):
     """Creates a standard rotation matrix of three angles for rotation
     calculations
@@ -38,6 +39,7 @@ def rotation_matrix(a, b, c):
             [-1.0 * sin(b), cos(b) * sin(c), cos(b) * cos(c)],
         ]
     )
+
 
 def load_default_smat():
     """
