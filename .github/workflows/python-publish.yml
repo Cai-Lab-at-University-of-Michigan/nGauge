@@ -4,12 +4,11 @@
 name: Upload Python Package to pip
 
 on:
-  pull_request:
-  push:
-    branches: [master]
-
-#  release:
-#    types: [created]
+#  pull_request:
+#  push:
+#    branches: [master]
+  release:
+    types: [created]
 
 jobs:
   deploy:
