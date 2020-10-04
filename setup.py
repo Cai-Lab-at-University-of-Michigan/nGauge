@@ -15,7 +15,7 @@ setup(
     description="Perform morphology measurement on neuron SWC files",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/GeekLogan/nMeasure/",
+    url="https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/",
     author="Logan Walker",
     author_email="logan.walker@me.com",
     license="GPLv3",
