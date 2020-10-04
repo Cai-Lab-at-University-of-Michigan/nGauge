@@ -4,8 +4,11 @@
 name: Upload Python Package to pip
 
 on:
-  release:
-    types: [created]
+  push:
+    branches: 
+      - main
+#  release:
+#    types: [created]
 
 jobs:
   deploy:
