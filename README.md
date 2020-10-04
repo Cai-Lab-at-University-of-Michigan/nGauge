@@ -11,7 +11,10 @@
 
 `pip install .`
 
-## Example Code
+## Example Usage
+
+## Contact
+Logan Walker <loganaw@umich.edu>
 
 ## License
 
