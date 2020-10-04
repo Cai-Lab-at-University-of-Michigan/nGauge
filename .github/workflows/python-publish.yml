@@ -4,9 +4,10 @@
 name: Upload Python Package to pip
 
 on:
+  pull_request:
   push:
-    branches: 
-      - main
+    branches: [master]
+
 #  release:
 #    types: [created]
 
