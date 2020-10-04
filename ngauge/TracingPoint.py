@@ -1,9 +1,7 @@
 from collections import defaultdict, deque
-
 import numpy as np
 
-from ngauge.util import *
-import ngauge.Neuron
+from ngauge import __num_types__
 
 class TracingPoint:
     """A class which defines a (X,Y,Z,R,T) tuple representing one point of a SWC file.
@@ -541,7 +539,7 @@ class TracingPoint:
     def to_swc(self, fname=None):
         from collections import deque as queue
 
-        # self.fix_parents()
+        self.fix_parents()
 
         i = 1  # counter of swc line
         todo = queue([self])
@@ -562,7 +560,7 @@ class TracingPoint:
             parent = memory[a.parent]
             memory[a] = i
 
-            # Columns:   id t  x  y  z  r  pid
+            # Columns:  id  t  x  y  z  r  pid
             out.append("%d %d %f %f %f %f %d" % (i, a.t, a.x, a.y, a.z, a.r, parent))
             i += 1
 

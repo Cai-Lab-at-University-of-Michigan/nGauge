@@ -1,8 +1,8 @@
 from collections import defaultdict, deque
 import numpy as np
 
-from ngauge.util import *
-import ngauge.TracingPoint
+from ngauge import __num_types__
+from ngauge import TracingPoint
 
 class Neuron:
     """A class representing a Neuron, i.e., an object represented by a complete SWC file."""
