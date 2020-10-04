@@ -15,6 +15,7 @@
 
 ## Contact
 Logan Walker <loganaw@umich.edu>
+Jennifer Williams <jenwill@umich.edu>
 
 ## License
 
