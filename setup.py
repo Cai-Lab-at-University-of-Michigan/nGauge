@@ -11,7 +11,7 @@ with open(os.path.join(HERE, "README.md")) as fid:
 
 ### Get version number
 version = ''
-for line in open('ngauge/'):
+for line in open('ngauge/__init__.py'):
     if '__version__' in line:
         line = line.split( '=' )[1]
         line = line.replace( '"', '' )
