@@ -3,17 +3,32 @@
 import os.path
 from setuptools import setup
 
-import ngauge
-
 # The text of the README file
 HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, "README.md")) as fid:
     README = fid.read()
 
+
+### Get version number
+version = ''
+for line in open('ngauge/'):
+    if '__version__' in line:
+        line = line.split( '=' )[1]
+        line = line.replace( '"', '' )
+        line = line.replace( "'", '' )
+        line = line.strip()
+
+        version = line
+        break
+
+if not version:
+    raise ValueError( "No Version Detected!!!" )
+###
+
 # This call to setup() does all the work
 setup(
     name="nGauge",
-    version=ngauge.__version__,
+    version=version,
     description="Perform morphology measurement on neuron SWC files",
     long_description=README,
     long_description_content_type="text/markdown",
