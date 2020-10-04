@@ -9,5 +9,8 @@ __author__ = "Logan A Walker <loganaw@umich.edu> and Jennifer Willams <jenwill@u
 __credits__ = "The University of Michigan"
 
 import ngauge.util
-import ngauge.TracingPoint
-import ngauge.Neuron
+__num_types__ = util.__num_types__
+
+from ngauge.util import *
+from ngauge.TracingPoint import TracingPoint
+from ngauge.Neuron import Neuron
