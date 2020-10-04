@@ -1,4 +1,4 @@
-"""Setup script for nMeasure"""
+"""Setup script for nGauge"""
 
 import os.path
 from setuptools import setup
@@ -10,7 +10,7 @@ with open(os.path.join(HERE, "README.md")) as fid:
 
 # This call to setup() does all the work
 setup(
-    name="nMeasure",
+    name="nGauge",
     version="0.1",
     description="Perform morphology measurement on neuron SWC files",
     long_description=README,
@@ -23,7 +23,7 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
     ],
-    packages=["nMeasure"],
+    packages=["nGauge"],
     include_package_data=True,
     install_requires=[
         "scipy", "numpy"
