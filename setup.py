@@ -20,10 +20,21 @@ setup(
     author_email="logan.walker@me.com",
     license="GPLv3",
     classifiers=[
+	"Development Status :: 3 - Alpha",
+	"Intended Audience :: Science/Research",
+	"License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+	"Natural Language :: English",
+
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3 :: Only",
+
+	"Topic :: Scientific/Engineering :: Visualization",
+	"Topic :: Scientific/Engineering :: Image Processing",
+	"Topic :: Scientific/Engineering :: Bio-Informatics",
+	"Topic :: Scientific/Engineering"
     ],
-    packages=["nGauge"],
+    packages=["ngauge"],
     include_package_data=True,
     install_requires=[
         "scipy", "numpy"
