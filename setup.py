@@ -3,6 +3,8 @@
 import os.path
 from setuptools import setup
 
+import ngauge
+
 # The text of the README file
 HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, "README.md")) as fid:
@@ -11,7 +13,7 @@ with open(os.path.join(HERE, "README.md")) as fid:
 # This call to setup() does all the work
 setup(
     name="nGauge",
-    version="0.1",
+    version=ngauge.__version__,
     description="Perform morphology measurement on neuron SWC files",
     long_description=README,
     long_description_content_type="text/markdown",
