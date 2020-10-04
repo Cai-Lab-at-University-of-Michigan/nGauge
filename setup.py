@@ -34,7 +34,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/",
     author="Logan Walker",
-    author_email="logan.walker@me.com",
+    author_email="loganaw@umich.edu",
     license="GPLv3",
     classifiers=[
 	"Development Status :: 3 - Alpha",
