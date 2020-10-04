@@ -5,11 +5,11 @@
 
 ### To install from `pip`:
 
-`pip install ngauge` (not currently enabled :( )
+`pip install ngauge`
 
 ### To install from source:
 
-- [ ] TODO
+`pip install .`
 
 ## Example Code
 
