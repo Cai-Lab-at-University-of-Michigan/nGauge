@@ -7,6 +7,8 @@
 
 `pip install ngauge`
 
+See repository information here: <https://pypi.org/project/nGauge/>
+
 ### To install from source:
 
 `pip install .`
