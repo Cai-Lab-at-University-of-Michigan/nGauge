@@ -683,3 +683,38 @@ class Neuron:
             out.add_branch(i)
         out.metadata = metadata
         return out
+
+    def to_swc(self, fname=None):
+        from collections import deque as queue
+
+        self.fix_parents()
+
+        i = 1  # counter of swc line
+        todo = queue([self])
+        memory = {None: -1}  # track line numbers of each element
+        out = []
+
+        # tail = self.farthest_tip()
+        #        while tail is not self:
+        # todo.appendleft( tail )
+        #           tail = tail.parent
+
+        while todo:
+            a = todo.pop()
+            if a in memory:  # duplicate
+                continue
+            todo.extend(a.children)
+
+            parent = memory[a.parent]
+            memory[a] = i
+
+            # Columns:  id  t  x  y  z  r  pid
+            out.append("%d %d %f %f %f %f %d" % (i, a.t, a.x, a.y, a.z, a.r, parent))
+            i += 1
+
+        out = "\n".join(out)
+        if fname is None:
+            return out
+        f = open(fname, "w")
+        f.write(out)
+        f.close()
