@@ -42,3 +42,4 @@ Thumbs.db
 # Python pycache
 __pycache__
 ngauge/.ipynb_checkpoints/*
+*/*.swc
