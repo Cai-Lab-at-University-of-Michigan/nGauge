@@ -562,7 +562,7 @@ class TracingPoint:
             memory[a] = i
 
             # Columns:  id  t  x  y  z  r  pid
-            out.append("%d %d %f %f %f %f %d" % (i, a.t, a.x, a.y, a.z, a.r, parent))
+            out.append("%d %d %g %g %g %g %d" % (i, a.t, a.x, a.y, a.z, a.r, parent))
             i += 1
 
         out = "\n".join(out)
