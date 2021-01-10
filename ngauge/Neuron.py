@@ -665,13 +665,13 @@ class Neuron:
                         branch_lookup[pt_num] = child
 
                         branches.append(parent)
-                    elif pt_parent == -1:
+                    elif pt_parent == -1:  # root of branch that doesn't connect to soma
                         child.parent = None
                         branch_lookup[pt_num] = child
                         branches.append(
                             child
                         )  # add branch for child since this is complicated
-                    else:
+                    else:  # failed lookup
                         if pt_parent not in branch_lookup:
                             raise ValueError("Parent id %d not present" % (pt_parent))
                         branch_lookup[pt_parent].add_child(child)
@@ -686,32 +686,63 @@ class Neuron:
 
     def to_swc(self, fname=None):
         from collections import deque as queue
-        
+
+        # could be removed for speed, but prevents errors if someone messed with the memory object
         for i in self.branches:
             i.fix_parents()
 
-        i = 1  # counter of swc line
+        swc_counter = 1  # counter of swc line
         todo = queue([self])
         memory = {None: -1}  # track line numbers of each element
         out = []
 
-        # tail = self.farthest_tip()
-        #        while tail is not self:
-        # todo.appendleft( tail )
-        #           tail = tail.parent
+        for layer in self.soma_layers.values():
+            for a in layer:
+                if a in memory:
+                    continue
+                # no children to extend
+                # no parent to deal with
+                out.append(
+                    "%d %d %g %g %g %g %d" % (swc_counter, a.t, a.x, a.y, a.z, a.r, -1)
+                )
+                memory[a] = swc_counter
+                swc_counter += 1
 
-        while todo:
-            a = todo.pop()
-            if a in memory:  # duplicate
-                continue
-            todo.extend(a.children)
+        for branch in self.branches:
+            todo = queue([branch])
+            is_root = True
+            while todo:
+                a = todo.pop()
+                if is_root:
+                    is_root = not is_root
+                    todo.extend(a.children)
+                else:
+                    if a in memory:  # duplicate
+                        continue
+                    todo.extend(a.children)
 
-            parent = memory[a.parent]
-            memory[a] = i
+                    parent = None
+                    try:
+                        parent = memory[a.parent]
+                    except:
+                        for layer in self.soma_layers.values():
+                            for b in layer:
+                                if (
+                                    b.x == a.parent.x
+                                    and b.y == a.parent.y
+                                    and b.z == a.parent.z
+                                ):
+                                    parent = b
+                        parent = memory[parent]
 
-            # Columns:  id  t  x  y  z  r  pid
-            out.append("%d %d %f %f %f %f %d" % (i, a.t, a.x, a.y, a.z, a.r, parent))
-            i += 1
+                    memory[a] = swc_counter
+
+                    # Columns:  id  t  x  y  z  r  pid
+                    out.append(
+                        "%d %d %g %g %g %g %d"
+                        % (swc_counter, a.t, a.x, a.y, a.z, a.r, parent)
+                    )
+                    swc_counter += 1
 
         out = "\n".join(out)
         if fname is None:
