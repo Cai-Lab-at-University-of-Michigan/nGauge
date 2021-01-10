@@ -686,8 +686,9 @@ class Neuron:
 
     def to_swc(self, fname=None):
         from collections import deque as queue
-
-        self.fix_parents()
+        
+        for i in self.branches:
+            i.fix_parents()
 
         i = 1  # counter of swc line
         todo = queue([self])
