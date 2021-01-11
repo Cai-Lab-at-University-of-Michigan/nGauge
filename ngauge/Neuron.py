@@ -389,7 +389,7 @@ class Neuron:
 
     def arbor_dist(self):
         """
-        :returns: The distance from the :func:`soma_centroid` to the positional average of all :attr:`branch` :class`TracingPoints`
+        :returns: The distance from the :func:`soma_centroid` to the positional average of all :attr:`branch` :class:`TracingPoints`
         :rtype: `float`
         """
         x, y, z, n = 0.0, 0.0, 0.0, 0
