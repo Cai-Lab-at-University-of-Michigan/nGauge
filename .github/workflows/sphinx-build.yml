@@ -30,5 +30,6 @@ jobs:
         ls -alh
     - name: Build
       run: |
+        ls
         make latexpdf
         ls -alh build/*
