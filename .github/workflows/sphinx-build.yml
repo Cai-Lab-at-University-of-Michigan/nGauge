@@ -24,8 +24,11 @@ jobs:
         sudo apt install python3-sphinx
         sudo apt install texlive texlive-latex-extra
         sudo apt install latexmk
-    - name: Build
+    - name: Move
       run: |
         cd doc
-        make latexpdf
         ls -alh
+    - name: Build
+      run: |
+        make latexpdf
+        ls -alh build/*
