@@ -22,10 +22,10 @@ jobs:
         python -m pip install --upgrade pip
         sudo apt update
         sudo apt install python3-sphinx
-        sudo apt install texlive-base
+        sudo apt install texlive texlive-latex-extra
         sudo apt install latexmk
     - name: Build
       run: |
-        cd docmake
-        latexpdf
+        cd doc
+        make latexpdf
         ls -alh
