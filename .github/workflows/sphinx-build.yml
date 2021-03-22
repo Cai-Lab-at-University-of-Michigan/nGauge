@@ -32,5 +32,6 @@ jobs:
       run: |
         cd doc
         ls -alh
+        ls -alh *
         make latexpdf
         ls -alh build/*
