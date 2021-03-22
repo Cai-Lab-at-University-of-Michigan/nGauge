@@ -145,7 +145,7 @@ class Neuron:
         """
         return sum(x.total_bif_nodes() for x in self.branches)
 
-    def total_width(self):
+    def total_width(self,percentile=None):
         """
         :returns: The width of the smallest bounding box required to encapsulate this :class:`Neuron`
         :rtype: `numeric`, inherited from :attr:`x`
