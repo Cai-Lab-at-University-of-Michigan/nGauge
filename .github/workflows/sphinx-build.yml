@@ -32,6 +32,10 @@ jobs:
       run: |
         cd doc
         ls -alh
-        ls -alh *
         make latexpdf
         ls -alh build/*
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: manual
+        path: /home/runner/work/nGauge/nGauge/doc/build/latex/nGauge.pdf
