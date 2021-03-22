@@ -28,14 +28,25 @@ jobs:
         sudo apt install python3-sphinx python3-numpy
         sudo apt install texlive texlive-latex-extra
         sudo apt install latexmk
-    - name: Build
+    - name: Build manual
       run: |
         cd doc
         ls -alh
         make latexpdf
         ls -alh build/*
-    - name: Upload
+
+    - name: Upload manual
       uses: actions/upload-artifact@v2
       with:
-        name: manual
+        name: Manual as Published
         path: /home/runner/work/nGauge/nGauge/doc/build/latex/nGauge.pdf
+
+    - name: Upload manual to release
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: /home/runner/work/nGauge/nGauge/doc/build/latex/nGauge.pdf
+        asset_name: nGaugeManual
+        tag: ${{ github.ref }}
+        overwrite: true
+        body: ""
