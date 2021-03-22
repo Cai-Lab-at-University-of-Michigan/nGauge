@@ -46,7 +46,7 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: /home/runner/work/nGauge/nGauge/doc/build/latex/nGauge.pdf
-        asset_name: nGaugeManual
+        asset_name: nGaugeManual.pdf
         tag: ${{ github.ref }}
         overwrite: true
         body: ""
