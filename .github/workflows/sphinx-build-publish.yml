@@ -1,0 +1,41 @@
+name: Build PDF Documentation
+
+on:
+#  pull_request:
+#  push:
+#    branches: [master]
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        which python
+        python --version
+        python -m pip install --upgrade pip
+        python -m pip install ngauge
+        python -c "import numpy; print(numpy)"
+        sudo apt update
+        sudo apt install python3-sphinx python3-numpy
+        sudo apt install texlive texlive-latex-extra
+        sudo apt install latexmk
+    - name: Build
+      run: |
+        cd doc
+        ls -alh
+        make latexpdf
+        ls -alh build/*
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: manual
+        path: /home/runner/work/nGauge/nGauge/doc/build/latex/nGauge.pdf
