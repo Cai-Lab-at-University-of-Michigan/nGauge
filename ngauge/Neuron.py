@@ -382,6 +382,41 @@ class Neuron:
                 out = branch
         return out
 
+    def all_segment_lengths(self):
+        """Creates sorted list of all segment lengths in a neuron`
+
+        :returns: all segment lengths sorted by least to greatest distance
+        :rtype: `list(float)`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> lengths = all_segment_lengths(neuron)
+            >>> type(lengths)
+            <class 'list'>
+            >>> lengths
+            [1.0,
+             1.4177446878757824,
+             1.445683229480096,
+             1.5,
+             1.5,
+             1.5,
+             1.5,
+             2.449489742783178,
+             2.449489742783178]
+        """
+        out = []
+        q = deque(self)
+        while q:
+            i = q.pop()
+            branchChildren = deque(i)
+            while branchChildren:
+                n = branchChildren.pop()
+                out.append( n.euclidean_dist(n.parent) )
+                q.append(n)
+        out.sort()
+        return out
+
+
     def __repr__(self):
         return "{Neuron of %d branches and %d soma layers}" % (
             len(self.branches),
