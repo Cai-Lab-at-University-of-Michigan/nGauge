@@ -457,6 +457,24 @@ class Neuron:
                 p.append(i.children[0])
         return out
 
+    def median_path_angle(n):
+        """Determines the median path angle across a neuron in degrees between [0, 180]
+
+        :param n: neuron
+        :type n: :class:`Neuron`
+
+        :returns: median path angle
+        :rtype: `float`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.median_path_angle()
+            114.0948425521107
+        """
+        out = all_path_angles(n)
+        out.sort()
+        return statistics.median(out)
+
 
     def __repr__(self):
         return "{Neuron of %d branches and %d soma layers}" % (
