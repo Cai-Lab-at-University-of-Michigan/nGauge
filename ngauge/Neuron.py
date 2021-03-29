@@ -1,8 +1,12 @@
+import math
+import statistics
+
 from collections import defaultdict, deque
 import numpy as np
 
 from ngauge import __num_types__
 from ngauge import TracingPoint
+
 
 
 class Neuron:
@@ -144,6 +148,12 @@ class Neuron:
         :rtype: `int`
         """
         return sum(x.total_bif_nodes() for x in self.branches)
+
+    def total_branch_nodes(self):
+        """
+        Redirects to `total_bif_nodes`
+        """
+        return self.total_bif_nodes()
 
     def total_width(self,percentile=None):
         """
