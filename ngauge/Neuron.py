@@ -420,9 +420,6 @@ class Neuron:
     def all_path_angles(self):
         """Calculates the path angle for all nodes in a neuron, starting at the node after the root node.
 
-        :param n: neuron calculation performed on
-        :type n: :class:`Neuron`
-
         :returns: all the path angles in a neuron
         :rtype: `list` of `float`
         :note: branch points, as there are then multiple new branches diverging,
@@ -460,9 +457,6 @@ class Neuron:
     def median_path_angle(self):
         """Determines the median path angle across a neuron in degrees between [0, 180]
 
-        :param n: neuron
-        :type n: :class:`Neuron`
-
         :returns: median path angle
         :rtype: `float`
 
@@ -478,9 +472,6 @@ class Neuron:
     def max_path_angle(self):
         """Determines the maximal path angle across a neuron in degrees between [0, 180]
 
-        :param n: neuron
-        :type n: :class:`Neuron`
-
         :returns: maximal path angle
         :rtype: `float`
 
@@ -490,8 +481,80 @@ class Neuron:
             172.50550517788332
         """
         out = self.all_path_angles()
-        out.sort()
-        return out[len(out) - 1]
+        return max( out )
+
+    def all_branch_angles(n):
+        """Creates a list with angles of all the branch points in a neuron in degrees between [0, 180]
+
+        :param n: starting point for gathering branch point angles
+        :type n: either :class:`Neuron` or :class:`TracingPoint`
+
+        :returns: all branch angles
+        :rtype: `list`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.all_branch_angles()
+            [90.8386644299175, 83.62062979155719, 83.62062979155719, 109.47122063449069]
+        """
+        q = get_branch_points(self)
+        out = []
+        while q:
+            i = q.pop()
+            a = deque(i)
+            s1 = a.pop()
+            s2 = a.pop()
+            out.append(i.angle(s1, s2))
+            while a:
+                s1 = a.pop()
+                if a:
+                    s2 = a.pop()
+                out.append(i.angle(s1, s2))
+        return out
+
+    def min_branch_angle(self):
+        """Determines the minimal branch point angle in degrees between [0, 180]
+
+        :returns: minimal branch angle
+        :rtype: `float`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.min_branch_angle()
+            83.62062979155719
+        """
+        out = self.all_branch_angles()
+        return min( out )
+
+
+    def avg_branch_angle(self):
+        """Determines the average branch point angle in degrees between [0, 180]
+
+        :returns: average branch angle
+        :rtype: `float`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.avg_branch_angle()
+            91.88778616188064
+        """
+        out = self.all_branch_angles()
+        return sum(out) / len(out)
+
+
+    def max_branch_angle(n):
+        """Determines the maximal branch point angle in degrees between [0, 180]
+
+        :returns: maximal branch angle
+        :rtype: `float`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.max_branch_angle()
+            109.47122063449069
+        """
+        out = self.all_branch_angles()
+        return max(out)
 
     def __repr__(self):
         return "{Neuron of %d branches and %d soma layers}" % (
