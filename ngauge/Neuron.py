@@ -417,6 +417,47 @@ class Neuron:
         return out
 
 
+    def all_path_angles(self):
+        """Calculates the path angle for all nodes in a neuron, starting at the node after the root node.
+
+        :param n: neuron calculation performed on
+        :type n: :class:`Neuron`
+
+        :returns: all the path angles in a neuron
+        :rtype: `list` of `float`
+        :note: branch points, as there are then multiple new branches diverging,
+                will have multiple path angles angles added to returned list
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.all_path_angles()
+               [114.0948425521107,
+                 114.0948425521107,
+                 82.17876449350037,
+                 162.28452765633213,
+                 65.9051574478893,
+                 132.87598866663572,
+                 88.65276496096037,
+                 172.50550517788332]
+        """
+        q = deque(self)
+        p = deque()
+        out = []
+        while q:
+            i = q.pop()
+            p.extend(i)
+        while p:
+            i = p.pop()
+            if len(i.children) > 1:
+                for j in range(len(i.children)):
+                    out.append(i.angle(i.parent, i.children[j]))
+                    p.append(i.children[j])
+            elif i.children:
+                out.append(i.angle(i.parent, i.children[0]))
+                p.append(i.children[0])
+        return out
+
+
     def __repr__(self):
         return "{Neuron of %d branches and %d soma layers}" % (
             len(self.branches),
