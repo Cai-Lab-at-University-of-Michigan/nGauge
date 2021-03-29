@@ -469,6 +469,50 @@ class TracingPoint:
             return 0.0
         return float(abs(l - r)) / (l + r - 2)
 
+    def angle(self, a, b):
+        """Determines the angle between two paths in degrees between [0, 180]
+
+        :param self: point connected to both a and b
+        :type branchPoint: :class:`TracingPoint`
+
+        :param a: one child of branching point
+        :type a: :class:`TracingPoint`
+
+        :param b: other child of branching point
+        :type b: :class:`TracingPoint`
+
+        :returns: angle
+        :rtype: `float`
+
+        Example 1 - Create TracingPoint objects:
+            >>> from src.morpho import TracingPoint as t
+            >>> p1 = t(0, 0, 0, 1, 1)
+            >>> p2 = t(1, 0, 1, 1, 1)
+            >>> ba = t(1, 0, 0, 1, 1)
+            >>> ba.angle(p1, p2)
+            90.0
+
+        Example 2 - TracingPoints in a Neuron object:
+            >>> neuron = from_swc("Example1.swc")
+            >>> ba = neuron.branches[0].children[0]
+            >>> p1 = ba.children[0]
+            >>> p2 = ba.children[1]
+            >>> ba.angle(p1, p2)
+            109.47122063449069
+        """
+        ax, ay, az = a.x - branchPoint.x, a.y - branchPoint.y, a.z - branchPoint.z
+        bx, by, bz = b.x - branchPoint.x, b.y - branchPoint.y, b.z - branchPoint.z
+        magA = (ax ** 2 + ay ** 2 + az ** 2) ** 0.5
+        magB = (bx ** 2 + by ** 2 + bz ** 2) ** 0.5
+        if magA == 0 or magB == 0:
+            return 180
+
+        dotProduct = (ax * bx) + (ay * by) + (az * bz)
+        rad = dotProduct / (magA * magB)
+        rad = min(rad, 1)
+        rad = max(rad, -1)
+        return m.acos(rad) * (180 / math.pi)
+
     '''def sackin_index(self):
         """
         Calculates the Sackin index of a given branch
