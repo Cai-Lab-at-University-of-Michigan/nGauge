@@ -685,17 +685,6 @@ class Neuron:
         soma_x, soma_y, soma_z = self.soma_centroid()
         self.translate(dx=-1 * soma_x, dy=-1 * soma_y, dz=-1 * soma_z)
 
-    def blast(self, other, spacing=50):  # THIS CODE IS SO BAD NEEDS TO BE DELETED
-        total_dist = 0.0
-        for i, pt in enumerate(self.iter_all_points(exclude_soma=True)):
-            if i % spacing != 0:
-                continue
-            total_dist += min(
-                pt.euclidean_dist(opt)
-                for opt in other.iter_all_points(exclude_soma=True)
-            )
-        return total_dist
-
     @staticmethod
     def from_swc(fname, force_format=True):
         """
