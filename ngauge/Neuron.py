@@ -685,6 +685,28 @@ class Neuron:
         soma_x, soma_y, soma_z = self.soma_centroid()
         self.translate(dx=-1 * soma_x, dy=-1 * soma_y, dz=-1 * soma_z)
 
+    def average_thickness(self):
+        """Determines average radius in microns across all neurites
+
+        :returns: average radius in microns
+        :rtype: `float`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> avg_thickness(neuron)
+            1.0
+        """
+
+        count = 0
+        total = 0.0
+        q = deque(self.branches)
+        while q:
+            i = q.pop()
+            count += 1
+            total += i.r
+            q.extend(i)
+        return float(total)/float(count)
+
     @staticmethod
     def from_swc(fname, force_format=True):
         """
