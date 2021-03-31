@@ -8,7 +8,6 @@ from ngauge import __num_types__
 from ngauge import TracingPoint
 
 
-
 class Neuron:
     """A class representing a Neuron, i.e., an object represented by a complete SWC file."""
 
@@ -155,7 +154,7 @@ class Neuron:
         """
         return self.total_bif_nodes()
 
-    def total_width(self,percentile=None):
+    def total_width(self, percentile=None):
         """
         :returns: The width of the smallest bounding box required to encapsulate this :class:`Neuron`
         :rtype: `numeric`, inherited from :attr:`x`
@@ -411,11 +410,10 @@ class Neuron:
             branchChildren = deque(i)
             while branchChildren:
                 n = branchChildren.pop()
-                out.append( n.euclidean_dist(n.parent) )
+                out.append(n.euclidean_dist(n.parent))
                 q.append(n)
         out.sort()
         return out
-
 
     def all_path_angles(self):
         """Calculates the path angle for all nodes in a neuron, starting at the node after the root node.
@@ -481,7 +479,7 @@ class Neuron:
             172.50550517788332
         """
         out = self.all_path_angles()
-        return max( out )
+        return max(out)
 
     def all_branch_angles(n):
         """Creates a list with angles of all the branch points in a neuron in degrees between [0, 180]
@@ -524,8 +522,7 @@ class Neuron:
             83.62062979155719
         """
         out = self.all_branch_angles()
-        return min( out )
-
+        return min(out)
 
     def avg_branch_angle(self):
         """Determines the average branch point angle in degrees between [0, 180]
@@ -540,7 +537,6 @@ class Neuron:
         """
         out = self.all_branch_angles()
         return sum(out) / len(out)
-
 
     def max_branch_angle(n):
         """Determines the maximal branch point angle in degrees between [0, 180]
@@ -705,7 +701,7 @@ class Neuron:
             count += 1
             total += i.r
             q.extend(i)
-        return float(total)/float(count)
+        return float(total) / float(count)
 
     def all_neurites_tortuosities(self):
         """Creates a sorted list of the log(tortuosity) values of all the neurites in the input
@@ -722,9 +718,7 @@ class Neuron:
              0.15049238421642142,
              0.18919849587081047]
         """
-        return sorted( [i.neurite_tortuosity() for i in self.get_tip_nodes()] )
-
-
+        return sorted([i.neurite_tortuosity() for i in self.get_tip_nodes()])
 
     def max_tortuosity(self):
         """Determines the 99.5 percentile of log(tortuosity) across all neurites in a neuron
@@ -739,7 +733,6 @@ class Neuron:
             0.1884243736377227
         """
         return np.percentile(self.all_neurites_tortuosities(), 99.5)
-
 
     def median_tortuosity(self):
         """Determines the medial log(tortuosity) accross all neurites in a neuron

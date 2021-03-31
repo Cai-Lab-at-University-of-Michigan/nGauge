@@ -537,7 +537,6 @@ class TracingPoint:
         rad = max(rad, -1)
         return m.acos(rad) * (180 / math.pi)
 
-
     '''def sackin_index(self):
         """
         Calculates the Sackin index of a given branch
