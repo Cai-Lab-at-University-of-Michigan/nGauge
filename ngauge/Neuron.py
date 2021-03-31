@@ -707,6 +707,53 @@ class Neuron:
             q.extend(i)
         return float(total)/float(count)
 
+    def all_neurites_tortuosities(self):
+        """Creates a sorted list of the log(tortuosity) values of all the neurites in the input
+
+        :returns: all log(tortuosity) values for neurites sorted least to greatest
+        :rtype: `list`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> all_neurites_tortuosities(neuron)
+            [0.04134791479135339,
+             0.05300604176745361,
+             0.14956195330433844,
+             0.15049238421642142,
+             0.18919849587081047]
+        """
+        return sorted( [i.neurite_tortuosity() for i in self.get_tip_nodes()] )
+
+
+
+    def max_tortuosity(self):
+        """Determines the 99.5 percentile of log(tortuosity) across all neurites in a neuron
+
+
+        :returns: 99.5 percentile of log(tortuosity)
+        :rtype: `float`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> max_tortuosity(neuron)
+            0.1884243736377227
+        """
+        return np.percentile(self.all_neurites_tortuosities(), 99.5)
+
+
+    def median_tortuosity(self):
+        """Determines the medial log(tortuosity) accross all neurites in a neuron
+
+        :returns: median log(tortuosity)
+        :rtype: `float`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> median_tortuosity(neuron)
+            0.14956195330433844
+        """
+        return statistics.median(self.all_neurites_tortuosities())
+
     @staticmethod
     def from_swc(fname, force_format=True):
         """
