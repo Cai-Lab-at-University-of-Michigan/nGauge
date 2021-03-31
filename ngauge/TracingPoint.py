@@ -1,5 +1,6 @@
 from collections import defaultdict, deque
 import numpy as np
+import math
 
 from ngauge import __num_types__
 
@@ -468,6 +469,29 @@ class TracingPoint:
         if l == r:
             return 0.0
         return float(abs(l - r)) / (l + r - 2)
+
+    def neurite_tortuosity(self):
+        """Determine the log(tortuosity) of a neurite - tortuosity defined as the ratio between the path
+           length (each segment's length combined) and the Euclidean distance from the root and tip node
+
+        :returns: the log(tortuosity)
+        :rtype: `float`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> dq = get_tip_nodes(neuron)
+            >>> dq[0]
+            TracingPoint(x=-3.0, y=3.0, z=1.5, r=1.0, t=3, parent=TracingPoint(x=-2.0, y=2.0, z=1.0, r=1.0, t=3, children=[{ 2, truncated }], parent={...}))
+            >>> neurite_tortuosity(dq[0])
+            0.04134791479135339
+        """
+        t = self
+        pathLength = 0
+        while t.parent:
+            pathLength += t.euclidean_dist(t.parent)
+            t = t.parent
+        euclideanStartToEnd = euclidean_dist(t, self)
+        return math.log10(pathLength / euclideanStartToEnd)
 
     def angle(self, a, b):
         """Determines the angle between two paths in degrees between [0, 180]
