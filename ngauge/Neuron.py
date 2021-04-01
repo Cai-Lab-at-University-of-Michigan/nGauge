@@ -759,7 +759,7 @@ class Neuron:
 
         Example:
             >>> neuron = from_swc("Example1.swc")
-            >>> neuron.branch_angles()
+            >>> neuron.branch_angles_histogram()
             (array([0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0]),
              array([  0.,   9.,  18.,  27.,  36.,  45.,  54.,  63.,  72.,  81.,  90.,
                     99., 108., 117., 126., 135., 144., 153., 162., 171., 180.]))
@@ -775,7 +775,7 @@ class Neuron:
 
         Example:
             >>> neuron = from_swc("Example1.swc")
-            >>> branch_orders(neuron)
+            >>> neuron.branch_order_counts()
             [0, 0, 4]
         """
 
@@ -795,14 +795,93 @@ class Neuron:
 
         Example:
             >>> neuron = from_swc("Example1.swc")
-            >>> path_angles(neuron)
+            >>> neuron.path_angles_histogram()
             (array([0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 2, 0, 1, 0, 0, 0, 1, 1]),
              array([  0.,   9.,  18.,  27.,  36.,  45.,  54.,  63.,  72.,  81.,  90.,
                     99., 108., 117., 126., 135., 144., 153., 162., 171., 180.]))
         """
         return np.histogram(self.all_path_angles(), bins=bins, range=(0, 180))
 
-    
+    def segment_length_histogram(self, bins=20):
+        """Creates a histogram (an array of counts and an array of edges) of all euclidean segment lengths
+           with default of 20 bins between 0 and maximum segment length
+
+        :param bins: number of bins for histogram to have
+        :type bins: `int`
+
+        :returns: histogram of all segment lengths
+        :rtype: `tuple` of two `numpy.array`, one with counts and one with edge values
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.segment_length_histogram()
+            (array([0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 2, 4, 0, 0, 0, 0, 0, 0, 2]),
+             array([0.        , 0.12247449, 0.24494897, 0.36742346, 0.48989795,
+                    0.61237244, 0.73484692, 0.85732141, 0.9797959 , 1.10227038,
+                    1.22474487, 1.34721936, 1.46969385, 1.59216833, 1.71464282,
+                    1.83711731, 1.95959179, 2.08206628, 2.20454077, 2.32701526,
+                    2.44948974]))
+        """
+        out = self.all_segment_lengths()
+        return np.histogram(out, bins=bins, range=(0, out[-1]))
+
+    def thickness_histogram(self, bins=30):
+        """Creates a histogram (an array of counts and an array of edges) of all nodes' radii, soma
+           excluded, with default of 30 bins between 0 and maximum radii
+
+        :param bins: number of bins for histogram to have
+        :type bins: `int`
+
+        :returns: histogram of all thicknesses
+        :rtype: `tuple` of two `numpy.array`, one with counts and one with edge values
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.thickness()
+            (array([ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 10]),
+             array([0.        , 0.03333333, 0.06666667, 0.1       , 0.13333333,
+                    0.16666667, 0.2       , 0.23333333, 0.26666667, 0.3       ,
+                    0.33333333, 0.36666667, 0.4       , 0.43333333, 0.46666667,
+                    0.5       , 0.53333333, 0.56666667, 0.6       , 0.63333333,
+                    0.66666667, 0.7       , 0.73333333, 0.76666667, 0.8       ,
+                    0.83333333, 0.86666667, 0.9       , 0.93333333, 0.96666667,
+                    1.        ]))
+        """
+        q = deque(self)
+        out = []
+        while q:
+            i = q.pop()
+            out.append(i.r)
+            q.extend(i)
+        out.sort()
+        return np.histogram(out, bins=bins, range=(0, out[-1]))
+
+    def path_length(self, out, length=0):
+        """Recursive function determining path lengths for all branch points and tips to the soma
+           for all neurites
+
+        :param out: list to which path distances are written
+        :type out: `list` of `float`
+
+        :param length: path length before the present node
+        :type length: `float`
+
+        :returns: path length between present node and children
+        :rtype: `float`
+        """
+        if len(t.children) == 0:
+            out.append(length)
+            return 0
+        if len(t.children) == 2:
+            out.append(length)
+            return path_length(
+                t.children[0], out, length + ms.euclidean_distance(t, t.children[0])
+            ) + path_length(
+                t.children[1], out, length + ms.euclidean_distance(t, t.children[1])
+            )
+        length += ms.euclidean_distance(t, t.children[0])
+        return path_length(t.children[0], out, length)
 
     @staticmethod
     def from_swc(fname, force_format=True):
