@@ -12,40 +12,16 @@ import math as m
 import unittest
 
 
-def branch_angles(n, bins=20):
-    """Creates a histogram (an array of counts and an array of edges) of all branch angles with 
-       default of 20 bins between [0, 180] degrees
-    
-    :param n: neuron for histogram to be created from
-    :type n: :class:`Neuron`
-    
-    :param bins: number of bins for histogram to have
-    :type bins: `int`
-    
-    :returns: histogram of all branch angles
-    :rtype: `tuple` of two `numpy.array`, one with counts and one with edge values
-    
-    Example:
-        >>> neuron = from_swc("Example1.swc")
-        >>> branch_angles(neuron)
-        (array([0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0]),
-         array([  0.,   9.,  18.,  27.,  36.,  45.,  54.,  63.,  72.,  81.,  90.,
-                99., 108., 117., 126., 135., 144., 153., 162., 171., 180.]))
-    """
-    out = ms.all_branch_angles(n)
-    return np.histogram(out, bins=bins, range=(0, 180))
-
-
 def branch_orders(n):
-    """Creates list from 0, K with K being the max branch order in the neuron and each i in the 
+    """Creates list from 0, K with K being the max branch order in the neuron and each i in the
             list being the number of bifurcation points with that branch order
-   
+
     :param n: neuron
     :type n: :class:`Neuron`
-   
+
     :returns: number of bifurcation points for each branch order value
     :rtype: `list` of `int`
-       
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> branch_orders(neuron)
@@ -77,18 +53,18 @@ def branch_orders(n):
 
 
 def path_angles(n, bins=20):
-    """Creates a histogram (an array of counts and an array of edges) of all path angles with 
+    """Creates a histogram (an array of counts and an array of edges) of all path angles with
        default of 20 bins between [0, 180] degrees
-    
+
     :param n: neuron for histogram to be created from
     :type n: :class:`Neuron`
-    
+
     :param bins: number of bins for histogram to have
     :type bins: `int`
-    
+
     :returns: histogram of all path angles
     :rtype: `tuple` two `numpy.array`, one with counts and one with edge values
-    
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> path_angles(neuron)
@@ -102,19 +78,19 @@ def path_angles(n, bins=20):
 
 def get_linear_reg_vector(n, tip, totalX, totalY, totalZ, count):
     """Calculates directional vector for the linear regression of the tip
-    
+
     :param n: neuron all points are from
     :type n: :class:`Neuron`
-    
+
     :param tip: terminal point the root angle is being calculated on
     :type tip: :class:`TracingPoint`
-    
+
     :params totalX, totalY, totalZ: sum of all x, y, and z values, respectively, in n
     :type totalX, totalY, totalZ: `int`
-    
+
     :param count: total nodes in n
     :type count: `int`
-    
+
     :returns: directional vector
     :rtype: `list`
     """
@@ -133,16 +109,16 @@ def get_linear_reg_vector(n, tip, totalX, totalY, totalZ, count):
 
 def angle_bn_two_vectors(somaVec, rootVec, tip):
     """Calculates the angle between two vectors both starting at the tip
-    
+
     :param somaVec: linear regression vector for the tip
     :type somaVec: `list` of `float`
-    
+
     :param rootVec: directional vector from root to tip
     :type rootVec: `list` of `float`
-    
+
     :param tip: starting location for both directional vectors
     :type tip: :class:`TracingPoint`
-    
+
     :returns: angle in degrees between [0, 180]
     :rtype: `float`
     """
@@ -163,17 +139,17 @@ def angle_bn_two_vectors(somaVec, rootVec, tip):
 
 def root_angles(n, bins=20):
     """Creates a histogram of all root angles in a neuron
-    
+
     :param n: neuron
     :type n: :class:`Neuron`
-    
+
     :param bins: number of bins for histogram to have
     :type bins: `int`
-    
+
     :note: used a linear regression model to get directional vector, instead of finding path to soma
     :returns: histogram of all root angles
     :rtype: `tuple` of two `numpy.array`, one with counts and one with edge values
-    
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> root_angles(neuron)
@@ -210,17 +186,17 @@ def root_angles(n, bins=20):
 
 def euler_root_angles(n, bins=20):
     """Creates a histogram of all Euler root angles in a neuron
-    
+
     :param n: neuron
     :type n: :class:`Neuron`
-    
+
     :param bins: number of bins for histogram to have
     :type bins: `int`
-    
+
     :note: used a linear regression model to get directional vector, instead of finding path to soma
     :returns: histogram of all root angles
     :rtype: `tuple` of two `numpy.array`, one with counts and one with edge values
-    
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> euler_root_angles(neuron)
@@ -261,16 +237,16 @@ def euler_root_angles(n, bins=20):
 def segment_lengths(n, bins=20):
     """Creates a histogram (an array of counts and an array of edges) of all euclidean segment lengths
        with default of 20 bins between 0 and maximum segment length
-    
+
     :param n: neuron for histogram to be created from
     :type n: :class:`Neuron`
-    
+
     :param bins: number of bins for histogram to have
     :type bins: `int`
-    
+
     :returns: histogram of all segment lengths
     :rtype: `tuple` of two `numpy.array`, one with counts and one with edge values
-    
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> segment_lengths(neuron)
@@ -288,16 +264,16 @@ def segment_lengths(n, bins=20):
 def thickness(n, bins=30):
     """Creates a histogram (an array of counts and an array of edges) of all nodes' radii, soma
        excluded, with default of 30 bins between 0 and maximum radii
-    
+
     :param n: neuron for histogram to be created from
     :type n: :class:`Neuron`
-    
+
     :param bins: number of bins for histogram to have
     :type bins: `int`
-    
+
     :returns: histogram of all thicknesses
     :rtype: `tuple` of two `numpy.array`, one with counts and one with edge values
-    
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> thickness(neuron)
@@ -324,16 +300,16 @@ def thickness(n, bins=30):
 def path_length(t, out, length=0):
     """Recursive function determining path lengths for all branch points and tips to the soma
        for all neurites
-       
+
     :param t: starting point for neurite
     :type t: :class:`TracingPoint`
-    
+
     :param out: list to which path distances are written
     :type out: `list` of `float`
-    
+
     :param length: path length before the present node
     :type length: `float`
-    
+
     :returns: path length between present node and children
     :rtype: `float`
     """
@@ -354,16 +330,16 @@ def path_length(t, out, length=0):
 def path_distance_to_soma(n, bins=20):
     """Creates a histogram (an array of counts and an array of edges) of the path length of
        each branch point and tip to the soma with default of 20 bins between 0 and maximum length
-    
+
     :param n: neuron for histogram to be created from
     :type n: :class:`Neuron`
-    
+
     :param bins: number of bins for histogram to have
     :type bins: `int`
-    
+
     :returns: histogram of all path distances
     :rtype: `tuple` of two `numpy.array`, one with counts and one with edge values
-    
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> path_distance_to_soma(neuron)
@@ -384,18 +360,18 @@ def path_distance_to_soma(n, bins=20):
 
 
 def euclidean_distances_to_soma(n, bins=20):
-    """Creates a histogram (an array of counts and an array of edges) of the Euclidean distance 
+    """Creates a histogram (an array of counts and an array of edges) of the Euclidean distance
     of each branch point and tip to the soma with default of 20 bins between 0 and maximum length
-    
+
     :param n: neuron for histogram to be created from
     :type n: :class:`Neuron`
-    
+
     :param bins: number of bins for histogram to have
     :type bins: `int`
-    
+
     :returns: histogram of euclidean distances
     :rtype: `tuple` of two `numpy.array`, one with counts and one with edge values
-    
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> euclidean_distances_to_soma(neuron)
@@ -418,22 +394,22 @@ def euclidean_distances_to_soma(n, bins=20):
 
 
 def sholl_intersection(a, steps=36, proj="xy"):
-    """Creates a numpy array for the Sholl Intersection, which is all intersections at 
+    """Creates a numpy array for the Sholl Intersection, which is all intersections at
        different radii a certain number of steps away from center of input
-    
+
     :param a: center point
     :type a: either :class:`Neuron` or :class:`TracingPoint`
-    
+
     :param steps: number of steps desired between center and maximal neurite point
     :type steps: `int`
-    
+
     :param proj: which plane circle is located on
     :type: `string`
-    
-    :returns: `numpy.array` consisting of `tuples` with radii position (`float`) and 
+
+    :returns: `numpy.array` consisting of `tuples` with radii position (`float`) and
               number of intersections (`int`)
     :rtype: `numpy.ndarray`
-    
+
     Example 1a - Neuron object:
         >>> neuron = from_swc("Example1.swc")
         >>> sholl_intersection(neuron)
@@ -473,7 +449,7 @@ def sholl_intersection(a, steps=36, proj="xy"):
        [5.34258457, 1.        ],
        [5.49971941, 1.        ],
        [5.65685425, 1.        ]])
-       
+
        Example 1b - TracingPoint object:
            >>> neuron = from_swc("Example1.swc")
            >>> p1 = neuron.branches[0]
@@ -536,23 +512,23 @@ def sholl_intersection(a, steps=36, proj="xy"):
 
 def all_branch_orders(n):
     """Creates a list with all the branch orders of all bifurcation points in neuron
-    
+
     :param n: neuron
     :type n: either :class:`Neuron` or :class:`TracingPoint`
-    
+
     :returns: `list` with all branch orders
     :rtype: `list` of `int`
-    
+
     Example 1a - Neuron object:
         >>> neuron = from_swc("Example1.swc")
         >>> all_branch_orders(neuron)
         [2, 2, 2, 2]
-        
+
     Example 1b - TracingPoint object:
         >>> neuron = from_swc("Example1.swc")
         >>> p1 = neuron.branches[0]
         >>> all_branch_orders(p1)
-        [2, 2, 2, 2]    
+        [2, 2, 2, 2]
     """
     q = ms.get_branch_points(n)
     out = []
@@ -565,16 +541,16 @@ def all_branch_orders(n):
 def branch_angles_x_branch_orders(n, bins=20):
     """Creates a 2D histogram of branch angles as a function of branch orders (across all branch
             points) with default bins of 20 and range 0 to max branch order by 0 to 180 degrees
-    
+
     :param n: neuron
     :type n: :class:`Neuron`
-    
+
     :param bins: number of bins for histogram to have
     :type bins: `int`
-    
+
     :returns: 2D histogram of branch angles as a function of branch orders
     :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
-    
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> branch_angles_x_branch_orders(neuron)
@@ -632,17 +608,17 @@ def branch_angles_x_branch_orders(n, bins=20):
 
 def branch_angles_x_path_distances(n, bins=20):
     """Creates a 2D histogram of branch angles as a function of path distances to the soma in
-            microns (across all branch points) with default bins of 20 
-    
+            microns (across all branch points) with default bins of 20
+
     :param n: neuron
     :type n: :class:`Neuron`
-    
+
     :param bins: number of bins for histogram to have
     :type bins: `int`
-    
+
     :returns: 2D histogram of branch angles as a function of path distances
     :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
-    
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> branch_angles_x_path_distances(neuron)
@@ -711,20 +687,20 @@ def branch_angles_x_path_distances(n, bins=20):
 
 def path_angle_x_branch_order(n, bins=20):
     """Creates a 2D histogram of path angles as a function of branch orders (across all nodes)
-       with default bins of 20 
-    
+       with default bins of 20
+
     :param n: neuron
     :type n: :class:`Neuron`
-    
+
     :param bins: number of bins for histogram to have
     :type bins: `int`
-    
+
     :returns: 2D histogram of path angles as a function of branch orders
     :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
     :note: bifurcation nodes will have multiple values in histogram associated with them due
-           to multiple path angles 
-    
-    Example: 
+           to multiple path angles
+
+    Example:
         >>> neuron = from_swc("Example1.swc")
         >>> path_angle_x_branch_order(neuron)
         (array([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
@@ -800,19 +776,19 @@ def path_angle_x_branch_order(n, bins=20):
 def path_angle_x_path_dist_helper(t, angles, dist, length=0):
     """Recursive helper function that will fill angles and dist parameters with their path angles
     and distances associated with each node
-    
+
     :param t: starting point for neurite
     :type t: :class:`TracingPoint`
-    
+
     :param angles: list to which path angles are written
     :type angles: `list`
-    
+
     :param dist: list to which path distances are written
     :type dist: `list`
-    
+
     :param length: path length before the present node
     :type length: `float`
-    
+
     :returns: path length between present node and children
     :rtype: `float`
     """
@@ -834,19 +810,19 @@ def path_angle_x_path_dist_helper(t, angles, dist, length=0):
 
 def path_angle_x_path_distance(n, bins=20):
     """Creates a 2D histogram of path angles as a function of path distances to the soma in microns
-       (across all nodes) with default bins of 20 
-    
+       (across all nodes) with default bins of 20
+
     :param n: neuron
     :type n: :class:`Neuron`
-    
+
     :param bins: number of bins for histogram to have
     :type bins: `int`
-    
-    :returns: 2D histogram of path angles as a function of path distances 
+
+    :returns: 2D histogram of path angles as a function of path distances
     :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
     :note: bifurcation nodes will have multiple values in histogram associated with them due
            to multiple path angles
-           
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> path_angle_x_path_distance(neuron)
@@ -916,13 +892,13 @@ def path_angle_x_path_distance(n, bins=20):
 
 def thickness_x_branch_order(n, bins=20):
     """Creates 2D histogram of neurite radii as a function of branch orders (across all nodes)
-    
+
     :param n: neuron
     :type n: :class:`Neuron`
-    
+
     :returns: 2D histogram of thickness as a function of branch orders
     :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
-    
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> thickness_x_branch_order(neuron)
@@ -994,13 +970,13 @@ def thickness_x_branch_order(n, bins=20):
 def thickness_x_path_distance(n, bins=20):
     """Creates 2D histogram of neurite radii as a function of path distances to the soma in microns
             (across all nodes)
-    
+
     :param n: neuron
     :type n: :class:`Neuron`
-    
+
     :returns: 2D histogram of thickness as a function of path distances
     :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
-    
+
     Example:
         >>> neuron = from_swc("Example1.swc")
         >>> thickness_x_path_distance(neuron)
