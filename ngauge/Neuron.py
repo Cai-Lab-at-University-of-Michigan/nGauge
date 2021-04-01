@@ -1,7 +1,7 @@
 import math
 import statistics
 
-from collections import defaultdict, deque
+from collections import defaultdict, deque, Counter
 import numpy as np
 
 from ngauge import __num_types__
@@ -746,6 +746,63 @@ class Neuron:
             0.14956195330433844
         """
         return statistics.median(self.all_neurites_tortuosities())
+
+    def branch_angles_histogram(self, bins=20):
+        """Creates a histogram (an array of counts and an array of edges) of all branch angles with
+           default of 20 bins between [0, 180] degrees
+
+        :param bins: number of bins for histogram to have
+        :type bins: `int`
+
+        :returns: histogram of all branch angles
+        :rtype: `tuple` of two `numpy.array`, one with counts and one with edge values
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.branch_angles()
+            (array([0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0]),
+             array([  0.,   9.,  18.,  27.,  36.,  45.,  54.,  63.,  72.,  81.,  90.,
+                    99., 108., 117., 126., 135., 144., 153., 162., 171., 180.]))
+        """
+        return np.histogram(self.all_branch_angles(), bins=bins, range=(0, 180))
+
+    def branch_order_counts(self):
+        """Creates list from 0, K with K being the max branch order in the neuron and each i in the
+                list being the number of bifurcation points with that branch order
+
+        :returns: number of bifurcation points for each branch order value
+        :rtype: `list` of `int`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> branch_orders(neuron)
+            [0, 0, 4]
+        """
+
+        out = Counter( [ x.branching_order() for x in self.get_branch_points() ] )
+        return [ out[i] for i in range(max(out.keys())+1) ]
+
+
+    def path_angles_histogram(self, bins=20):
+        """Creates a histogram (an array of counts and an array of edges) of all path angles with
+           default of 20 bins between [0, 180] degrees
+
+        :param bins: number of bins for histogram to have
+        :type bins: `int`
+
+        :returns: histogram of all path angles
+        :rtype: `tuple` two `numpy.array`, one with counts and one with edge values
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> path_angles(neuron)
+            (array([0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 2, 0, 1, 0, 0, 0, 1, 1]),
+             array([  0.,   9.,  18.,  27.,  36.,  45.,  54.,  63.,  72.,  81.,  90.,
+                    99., 108., 117., 126., 135., 144., 153., 162., 171., 180.]))
+        """
+        return np.histogram(self.all_path_angles(), bins=bins, range=(0, 180))
+
+    
 
     @staticmethod
     def from_swc(fname, force_format=True):
