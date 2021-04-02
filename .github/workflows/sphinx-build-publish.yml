@@ -25,9 +25,8 @@ jobs:
         python -m pip install ngauge shapely
         python -c "import numpy; print(numpy)"
         sudo apt update
-        sudo apt install python3-sphinx python3-numpy
+        sudo apt install python3-sphinx python3-numpy python3-shapely
         sudo apt install texlive texlive-latex-extra
-        sudo apt-get install python-shapely
         sudo apt install latexmk
     - name: Build manual
       run: |
