@@ -857,31 +857,144 @@ class Neuron:
         out.sort()
         return np.histogram(out, bins=bins, range=(0, out[-1]))
 
-    def path_length(self, out, length=0):
-        """Recursive function determining path lengths for all branch points and tips to the soma
-           for all neurites
+    def path_distances_to_soma_histogram(self, bins=20):
+        """Creates a histogram (an array of counts and an array of edges) of the path length of
+           each branch point and tip to the soma with default of 20 bins between 0 and maximum length
 
-        :param out: list to which path distances are written
-        :type out: `list` of `float`
+        :param bins: number of bins for histogram to have
+        :type bins: `int`
 
-        :param length: path length before the present node
-        :type length: `float`
+        :returns: histogram of all path distances
+        :rtype: `tuple` of two `numpy.array`, one with counts and one with edge values
 
-        :returns: path length between present node and children
-        :rtype: `float`
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.path_distance_to_soma_histogram()
+            (array([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 4, 0, 0, 0, 2]),
+             array([0.        , 0.31975865, 0.6395173 , 0.95927595, 1.27903459,
+                    1.59879324, 1.91855189, 2.23831054, 2.55806919, 2.87782784,
+                    3.19758649, 3.51734513, 3.83710378, 4.15686243, 4.47662108,
+                    4.79637973, 5.11613838, 5.43589703, 5.75565568, 6.07541432,
+                    6.39517297]))
         """
-        if len(t.children) == 0:
-            out.append(length)
-            return 0
-        if len(t.children) == 2:
-            out.append(length)
-            return path_length(
-                t.children[0], out, length + ms.euclidean_distance(t, t.children[0])
-            ) + path_length(
-                t.children[1], out, length + ms.euclidean_distance(t, t.children[1])
-            )
-        length += ms.euclidean_distance(t, t.children[0])
-        return path_length(t.children[0], out, length)
+        out = [i.path_dist_to_root() for i in self.iter_all_points(exclude_soma=True)]
+        return np.histogram(out, bins=bins, range=(0, out[-1]))
+
+    def euclidean_distances_to_soma_histogram(self, bins=20):
+        """Creates a histogram (an array of counts and an array of edges) of the Euclidean distance
+        of each branch point and tip to the soma with default of 20 bins between 0 and maximum length
+
+        :param bins: number of bins for histogram to have
+        :type bins: `int`
+
+        :returns: histogram of euclidean distances
+        :rtype: `tuple` of two `numpy.array`, one with counts and one with edge values
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.euclidean_distances_to_soma()
+            (array([0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 0, 1, 1]),
+             array([0.   , 0.225, 0.45 , 0.675, 0.9  , 1.125, 1.35 , 1.575, 1.8  ,
+                    2.025, 2.25 , 2.475, 2.7  , 2.925, 3.15 , 3.375, 3.6  , 3.825,
+                    4.05 , 4.275, 4.5  ]))
+        """
+        out = [i.euclidean_distances_to_soma() for i in self.iter_all_points(exclude_soma=True)]
+        return np.histogram(out, bins=bins, range=(0, out[-1]))
+
+    def sholl_intersection(self, steps=36, proj="xy"):
+        """Creates a numpy array for the Sholl Intersection, which is all intersections at
+           different radii a certain number of steps away from center of input
+
+        :param steps: number of steps desired between center and maximal neurite point
+        :type steps: `int`
+
+        :param proj: which plane circle is located on
+        :type: `string`
+
+        :returns: `numpy.array` consisting of `tuples` with radii position (`float`) and
+                  number of intersections (`int`)
+        :rtype: `numpy.ndarray`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.sholl_intersection()
+            array([[0.15713484, 1.        ],
+           [0.31426968, 1.        ],
+           [0.47140452, 1.        ],
+           [0.62853936, 1.        ],
+           [0.7856742 , 1.        ],
+           [0.94280904, 1.        ],
+           [1.09994388, 2.        ],
+           [1.25707872, 2.        ],
+           [1.41421356, 2.        ],
+           [1.5713484 , 2.        ],
+           [1.72848324, 2.        ],
+           [1.88561808, 2.        ],
+           [2.04275292, 2.        ],
+           [2.19988776, 2.        ],
+           [2.3570226 , 2.        ],
+           [2.51415744, 2.        ],
+           [2.67129228, 2.        ],
+           [2.82842712, 3.        ],
+           [2.98556197, 4.        ],
+           [3.14269681, 4.        ],
+           [3.29983165, 2.        ],
+           [3.45696649, 2.        ],
+           [3.61410133, 2.        ],
+           [3.77123617, 2.        ],
+           [3.92837101, 2.        ],
+           [4.08550585, 2.        ],
+           [4.24264069, 3.        ],
+           [4.39977553, 2.        ],
+           [4.55691037, 1.        ],
+           [4.71404521, 1.        ],
+           [4.87118005, 1.        ],
+           [5.02831489, 1.        ],
+           [5.18544973, 1.        ],
+           [5.34258457, 1.        ],
+           [5.49971941, 1.        ],
+           [5.65685425, 1.        ]])
+        """
+        # determine center based on input
+        center = self.soma_centroid()
+        if proj == "xy":
+            center = Point(center[0], center[1])
+        elif proj == "yz":
+            center = Point(center[1], center[2])
+        elif proj == "xz":
+            center = Point(center[0], center[2])
+        raise AttributeError("proj must be either xy, yz, or xz")
+
+        # fills lines with all the segments in our neuron or tracing point
+        out = self.get_tip_nodes(a)
+        coord = []
+        while out:
+            i = out.pop()
+            if i.parent:
+                if proj == "xy":
+                    coord.append(((i.x, i.y), (i.parent.x, i.parent.y)))
+                elif proj == "yz":
+                    coord.append(((i.y, i.z), (i.parent.y, i.parent.z)))
+                else:
+                    coord.append(((i.x, i.z), (i.parent.x, i.parent.z)))
+                out.append(i.parent)
+        lines = MultiLineString(coord)
+
+        # determines how many intersections occur at each location
+        maxPoint = Point(lines.bounds[2], lines.bounds[3])
+        line = LineString([center, maxPoint])
+        intersect = []
+        for i in range(1, steps + 1):
+            r = (line.length / steps) * i
+            c = center.buffer(r).boundary
+            i = c.intersection(lines)
+            if type(i) is Point:
+                intersect.append((r, 1))
+            elif type(i) is LineString:
+                intersect.append((r, 1))
+            else:
+                intersect.append((r, len(i)))
+        return np.array(intersect)
 
     @staticmethod
     def from_swc(fname, force_format=True):
