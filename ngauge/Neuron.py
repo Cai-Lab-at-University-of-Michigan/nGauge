@@ -9,6 +9,7 @@ from ngauge import TracingPoint
 
 from shapely.geometry import LineString, Point, MultiLineString
 
+
 class Neuron:
     """A class representing a Neuron, i.e., an object represented by a complete SWC file."""
 
@@ -779,10 +780,8 @@ class Neuron:
             >>> neuron.branch_order_counts()
             [0, 0, 4]
         """
-
-        out = Counter( [ x.branching_order() for x in self.get_branch_points() ] )
-        return [ out[i] for i in range(max(out.keys())+1) ]
-
+        out = Counter([x.branching_order() for x in self.get_branch_points()])
+        return [out[i] for i in range(max(out.keys()) + 1)]
 
     def path_angles_histogram(self, bins=20):
         """Creates a histogram (an array of counts and an array of edges) of all path angles with
@@ -899,7 +898,10 @@ class Neuron:
                     2.025, 2.25 , 2.475, 2.7  , 2.925, 3.15 , 3.375, 3.6  , 3.825,
                     4.05 , 4.275, 4.5  ]))
         """
-        out = [i.euclidean_distances_to_soma() for i in self.iter_all_points(exclude_soma=True)]
+        out = [
+            i.euclidean_distances_to_soma()
+            for i in self.iter_all_points(exclude_soma=True)
+        ]
         return np.histogram(out, bins=bins, range=(0, out[-1]))
 
     def sholl_intersection(self, steps=36, proj="xy"):
@@ -997,7 +999,6 @@ class Neuron:
                 intersect.append((r, len(i)))
         return np.array(intersect)
 
-
     def all_branch_orders(self):
         """Creates a list with all the branch orders of all bifurcation points in neuron
 
@@ -1080,7 +1081,389 @@ class Neuron:
             orders, angles, bins=bins, range=[[0, ms.max_branch_order(n)], [0, 180]]
         )
 
+    def branch_angles_x_path_distances(self, bins=20):
+        """Creates a 2D histogram of branch angles as a function of path distances to the soma in
+                microns (across all branch points) with default bins of 20
 
+        :param bins: number of bins for histogram to have
+        :type bins: `int`
+
+        :returns: 2D histogram of branch angles as a function of path distances
+        :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.branch_angles_x_path_distances()
+            (array([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 2., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.]]),
+             array([0.        , 0.24747449, 0.49494897, 0.74242346, 0.98989795,
+                    1.23737244, 1.48484692, 1.73232141, 1.9797959 , 2.22727038,
+                    2.47474487, 2.72221936, 2.96969385, 3.21716833, 3.46464282,
+                    3.71211731, 3.95959179, 4.20706628, 4.45454077, 4.70201526,
+                    4.94948974]),
+             array([  0.,   9.,  18.,  27.,  36.,  45.,  54.,  63.,  72.,  81.,  90.,
+                     99., 108., 117., 126., 135., 144., 153., 162., 171., 180.]))
+        """
+        angles = self.all_branch_angles()
+        q = self.get_branch_points()
+        dist = []
+        while q:
+            i = q.pop()
+            length = 0
+            while i.parent:
+                length += ms.euclidean_distance(i, i.parent)
+                i = i.parent
+            dist.append(length)
+        distSorted = sorted(dist)
+        maxDist = distSorted[-1]
+        return np.histogram2d(dist, angles, bins=bins, range=[[0, maxDist], [0, 180]])
+
+    def path_angle_x_branch_order(self, bins=20):
+        """Creates a 2D histogram of path angles as a function of branch orders (across all nodes)
+           with default bins of 20
+
+        :param bins: number of bins for histogram to have
+        :type bins: `int`
+
+        :returns: 2D histogram of path angles as a function of branch orders
+        :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
+        :note: bifurcation nodes will have multiple values in histogram associated with them due
+               to multiple path angles
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.path_angle_x_branch_order()
+            (array([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 1.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 2.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 2.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 1.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 1.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 1.]]),
+             array([  0.,   9.,  18.,  27.,  36.,  45.,  54.,  63.,  72.,  81.,  90.,
+                     99., 108., 117., 126., 135., 144., 153., 162., 171., 180.]),
+             array([0. , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1. , 1.1, 1.2,
+                    1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2. ]))
+        """
+        q = deque(self)
+        p = deque()
+        angles = []
+        orders = []
+        while q:
+            it = q.pop()
+            p.extend(it)
+        while p:
+            i = p.pop()
+            if i.children and len(i.children) > 1:
+                for j in range(len(i.children)):
+                    angles.append(ms.angle(i, i.parent, i.children[j]))
+                    orders.append(len(i.children))
+                    p.append(i.children[j])
+            elif i.children:
+                angles.append(ms.angle(i, i.parent, i.children[0]))
+                orders.append(len(i.children))
+                p.append(i.children[0])
+        return np.histogram2d( angles, orders, bins=bins, range=[[0, 180], [0, max(orders)] )
+
+    def path_angle_x_path_distance(self, bins=20):
+        """Creates a 2D histogram of path angles as a function of path distances to the soma in microns
+           (across all nodes) with default bins of 20
+
+        :param bins: number of bins for histogram to have
+        :type bins: `int`
+
+        :returns: 2D histogram of path angles as a function of path distances
+        :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
+        :note: bifurcation nodes will have multiple values in histogram associated with them due
+               to multiple path angles
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.path_angle_x_path_distance()
+            (array([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 1., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 1., 0., 1., 0.,
+                     0., 0., 0., 1.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 1., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 1., 0.]]),
+             array([0.        , 0.24747449, 0.49494897, 0.74242346, 0.98989795,
+                    1.23737244, 1.48484692, 1.73232141, 1.9797959 , 2.22727038,
+                    2.47474487, 2.72221936, 2.96969385, 3.21716833, 3.46464282,
+                    3.71211731, 3.95959179, 4.20706628, 4.45454077, 4.70201526,
+                    4.94948974]),
+             array([  0.,   9.,  18.,  27.,  36.,  45.,  54.,  63.,  72.,  81.,  90.,
+                     99., 108., 117., 126., 135., 144., 153., 162., 171., 180.]))
+        """
+        q = deque(self)
+        p = deque()
+        angles = []
+        dist = []
+        maxLen = 0
+        while q:
+            it = q.pop()
+            p.extend(it)
+        while p:
+            i = p.pop()
+            path_angle_x_path_dist_helper(i, angles, dist)
+        return np.histogram2d(dist, angles, bins=bins, range=[[0, max(sortDist)], [0, 180]])
+
+    def thickness_x_branch_order(self, bins=20):
+        """Creates 2D histogram of neurite radii as a function of branch orders (across all nodes)
+
+        :returns: 2D histogram of thickness as a function of branch orders
+        :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.thickness_x_branch_order()
+            (array([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 6.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 4.]]),
+             array([0. , 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1. , 1.1, 1.2,
+                    1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2. ]),
+             array([0.  , 0.05, 0.1 , 0.15, 0.2 , 0.25, 0.3 , 0.35, 0.4 , 0.45, 0.5 ,
+                    0.55, 0.6 , 0.65, 0.7 , 0.75, 0.8 , 0.85, 0.9 , 0.95, 1.  ]))
+        """
+        q = deque(self)
+        maxRad = maxOrder = 0
+        radii = []
+        orders = []
+        while q:
+            i = q.pop()
+            if i.r > maxRad:
+                maxRad = i.r
+            radii.append(i.r)
+            if len(i.children) > maxOrder:
+                maxOrder = len(i.children)
+            if len(i.children) > 1:
+                orders.append(len(i.children))
+            else:
+                orders.append(1)
+            if i.children:
+                q.extend(i)
+        return np.histogram2d(orders, radii, bins=bins, range=[[0, maxOrder], [0, maxRad]])
+
+    def thickness_x_path_distance(self, bins=20):
+        """Creates 2D histogram of neurite radii as a function of path distances to the soma in microns
+                (across all nodes)
+
+        :param n: neuron
+        :type n: :class:`Neuron`
+
+        :returns: 2D histogram of thickness as a function of path distances
+        :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.thickness_x_path_distance()
+            (array([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 1.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 1.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 2.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 4.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 2.]]),
+             array([0.        , 0.31975865, 0.6395173 , 0.95927595, 1.27903459,
+                    1.59879324, 1.91855189, 2.23831054, 2.55806919, 2.87782784,
+                    3.19758649, 3.51734513, 3.83710378, 4.15686243, 4.47662108,
+                    4.79637973, 5.11613838, 5.43589703, 5.75565568, 6.07541432,
+                    6.39517297]),
+             array([0.  , 0.05, 0.1 , 0.15, 0.2 , 0.25, 0.3 , 0.35, 0.4 , 0.45, 0.5 ,
+                    0.55, 0.6 , 0.65, 0.7 , 0.75, 0.8 , 0.85, 0.9 , 0.95, 1.  ]))
+        """
+        q = deque(self)
+        radii = []
+        dist = []
+        maxRadii = maxDist = 0
+        while q:
+            i2 = i = q.pop()
+            length = 0
+            if i.r > maxRadii:
+                maxRadii = i.r
+            radii.append(i.r)
+            while i.parent:
+                length += i.euclidean_dist(i.parent)
+                i = i.parent
+            if length > maxDist:
+                maxDist = length
+            dist.append(length)
+            q.extend(i2)
+        return np.histogram2d(dist, radii, bins=bins, range=[[0, maxDist], [0, maxRadii]])
 
     @staticmethod
     def from_swc(fname, force_format=True):
