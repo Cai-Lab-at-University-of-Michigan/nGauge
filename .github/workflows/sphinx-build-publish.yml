@@ -22,7 +22,7 @@ jobs:
         which python
         python --version
         python -m pip install --upgrade pip
-        python -m pip install ngauge
+        python -m pip install ngauge shapely
         python -c "import numpy; print(numpy)"
         sudo apt update
         sudo apt install python3-sphinx python3-numpy
