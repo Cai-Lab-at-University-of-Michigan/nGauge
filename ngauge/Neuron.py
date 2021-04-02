@@ -998,6 +998,89 @@ class Neuron:
         return np.array(intersect)
 
 
+    def all_branch_orders(self):
+        """Creates a list with all the branch orders of all bifurcation points in neuron
+
+        :returns: `list` with all branch orders
+        :rtype: `list` of `int`
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.all_branch_orders()
+                [2, 2, 2, 2]
+        """
+        q = self.get_branch_points()
+        out = []
+        while q:
+            i = q.pop()
+            out.append(len(i.children))
+        return out
+
+    def branch_angles_x_branch_orders(self, bins=20):
+        """Creates a 2D histogram of branch angles as a function of branch orders (across all branch
+                points) with default bins of 20 and range 0 to max branch order by 0 to 180 degrees
+
+        :param bins: number of bins for histogram to have
+        :type bins: `int`
+
+        :returns: 2D histogram of branch angles as a function of branch orders
+        :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.branch_angles_x_branch_orders()
+            (array([[0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 2., 1., 0., 1., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.],
+                    [0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,
+                     0., 0., 0., 0.]]),
+             array([0.  , 0.15, 0.3 , 0.45, 0.6 , 0.75, 0.9 , 1.05, 1.2 , 1.35, 1.5 ,
+                    1.65, 1.8 , 1.95, 2.1 , 2.25, 2.4 , 2.55, 2.7 , 2.85, 3.  ]),
+             array([  0.,   9.,  18.,  27.,  36.,  45.,  54.,  63.,  72.,  81.,  90.,
+                     99., 108., 117., 126., 135., 144., 153., 162., 171., 180.]))
+        """
+        orders = self.all_branch_orders()
+        angles = self.all_branch_angles()
+        return np.histogram2d(
+            orders, angles, bins=bins, range=[[0, ms.max_branch_order(n)], [0, 180]]
+        )
+
+
 
     @staticmethod
     def from_swc(fname, force_format=True):
