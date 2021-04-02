@@ -1234,7 +1234,7 @@ class Neuron:
                 angles.append(ms.angle(i, i.parent, i.children[0]))
                 orders.append(len(i.children))
                 p.append(i.children[0])
-        return np.histogram2d( angles, orders, bins=bins, range=[[0, 180], [0, max(orders)] )
+        return np.histogram2d( angles, orders, bins=bins, range=[[0, 180], [0, max(orders)]] )
 
     def path_angle_x_path_distance(self, bins=20):
         """Creates a 2D histogram of path angles as a function of path distances to the soma in microns
