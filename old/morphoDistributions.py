@@ -176,11 +176,6 @@ def euler_root_angles(n, bins=20):
 
 
 
-
-
-
-
-
 def all_branch_orders(n):
     """Creates a list with all the branch orders of all bifurcation points in neuron
 

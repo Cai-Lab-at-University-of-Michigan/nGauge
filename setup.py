@@ -54,7 +54,7 @@ setup(
     packages=["ngauge"],
     include_package_data=True,
     install_requires=[
-        "scipy", "numpy"
+        "scipy", "numpy", "shapely"
     ],
     #entry_points={"console_scripts": ["realpython=reader.__main__:main"]},
 )
