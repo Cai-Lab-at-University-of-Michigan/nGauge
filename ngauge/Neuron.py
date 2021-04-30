@@ -23,7 +23,7 @@ class Neuron:
         self.metadata = ""
         """An empty attribute to store metadata from the SWC file"""
 
-    def plot(self, fig=None, ax=None, axis="z", color="blue"):
+    def plot(self, fig=None, ax=None, axis="z", color="blue", linewidth=1):
         """Draws this Neuron as a figure
 
         :param ax: A matplotlib axis object to draw upon
@@ -51,17 +51,18 @@ class Neuron:
         if not ax and not fig:
             fig = plt.figure()
             ax = fig.add_subplot(111)
+            ax.set_aspect("equal")
 
         for layer in self.soma_layers.values():
             if axis == "z":
-                ax.plot([i.x for i in layer], [i.y for i in layer], color=color)
+                ax.plot([i.x for i in layer], [i.y for i in layer], color=color, linewidth=linewidth)
             elif axis == "x":
-                ax.plot([i.y for i in layer], [i.z for i in layer], color=color)
+                ax.plot([i.y for i in layer], [i.z for i in layer], color=color, linewidth=linewidth)
             elif axis == "y":
-                ax.plot([i.x for i in layer], [i.z for i in layer], color=color)
+                ax.plot([i.x for i in layer], [i.z for i in layer], color=color, linewidth=linewidth)
 
         for branch in self.branches:
-            branch.plot(ax=ax, fig=fig, axis=axis, color=color)
+            branch.plot(ax=ax, fig=fig, axis=axis, color=color, linewidth=linewidth)
 
         return fig
 

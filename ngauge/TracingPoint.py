@@ -81,7 +81,7 @@ class TracingPoint:
         else:
             raise TypeError("Children must be list of TracingPoint objects")
 
-    def plot(self, ax=None, fig=None, color="blue", axis="z"):
+    def plot(self, ax=None, fig=None, color="blue", axis="z", linewidth=1):
         """Draws this TracingPoint as a figure
 
         :param ax: A matplotlib axis object to draw upon
@@ -124,16 +124,19 @@ class TracingPoint:
             lc = mc.LineCollection(
                 [[(ix, iy), (jx, jy)] for ix, iy, iz, jx, jy, jz in segments],
                 color=color,
+                linewidths=linewidth
             )
         elif axis == "x":
             lc = mc.LineCollection(
                 [[(iy, iz), (jy, jz)] for ix, iy, iz, jx, jy, jz in segments],
                 color=color,
+                linewidths=linewidth
             )
         elif axis == "y":
             lc = mc.LineCollection(
                 [[(ix, iz), (jx, jz)] for ix, iy, iz, jx, jy, jz in segments],
                 color=color,
+                linewidths=linewidth
             )
         ax.add_collection(lc)
         ax.autoscale()
