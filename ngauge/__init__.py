@@ -4,7 +4,7 @@ nGauge
 A python library for neuron morphology.
 """
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __author__ = (
     "Logan A Walker <loganaw@umich.edu> and Jennifer Willams <jenwill@umich.edu>"
 )
