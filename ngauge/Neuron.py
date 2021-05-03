@@ -9,6 +9,8 @@ from ngauge import TracingPoint
 
 from shapely.geometry import LineString, Point, MultiLineString
 
+from ngauge.util import rotation_matrix
+
 
 class Neuron:
     """A class representing a Neuron, i.e., an object represented by a complete SWC file."""
