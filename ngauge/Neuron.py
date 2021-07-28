@@ -1677,28 +1677,28 @@ class Neuron:
                         continue
                     todo.extend(a.children)
 
-                    parent = None
-                    try:
-                        parent = memory[a.parent]
-                    except:
-                        for layer in self.soma_layers.values():
-                            for b in layer:
-                                if (
-                                    b.x == a.parent.x
-                                    and b.y == a.parent.y
-                                    and b.z == a.parent.z
-                                ):
-                                    parent = b
-                        parent = memory[parent]
+                parent = None
+                try:
+                    parent = memory[a.parent]
+                except:
+                    for layer in self.soma_layers.values():
+                        for b in layer:
+                            if (
+                                b.x == a.parent.x
+                                and b.y == a.parent.y
+                                and b.z == a.parent.z
+                            ):
+                                parent = b
+                    parent = memory[parent]
 
-                    memory[a] = swc_counter
+                memory[a] = swc_counter
 
-                    # Columns:  id  t  x  y  z  r  pid
-                    out.append(
-                        "%d %d %g %g %g %g %d"
-                        % (swc_counter, a.t, a.x, a.y, a.z, a.r, parent)
-                    )
-                    swc_counter += 1
+                # Columns:  id  t  x  y  z  r  pid
+                out.append(
+                    "%d %d %g %g %g %g %d"
+                    % (swc_counter, a.t, a.x, a.y, a.z, a.r, parent)
+                )
+                swc_counter += 1
 
         out = "\n".join(out)
         if fname is None:
