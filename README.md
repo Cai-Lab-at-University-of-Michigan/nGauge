@@ -1,13 +1,19 @@
 # nGauge
 `nGauge` is a Python library which provides a collection of tools for the measurement, quantification, and visualization of neuron morphology. The library structure makes automation of data analysis pipelines easier, leading to faster and more reproducible results.
 
+## Example Usage
+For example code and tutorials, please see the GitHub folder labeled ["tutorials"](tutorials/README.md).
+
 ## Installation
 
-### To install with `pip` on a `python 3.x` installation:
+### Recommended Method (`pip`)
+
+If you have  `pip` and `python 3.x` installed already, nGauge can be installed by running the following command
+in the terminal:
 
 `pip install ngauge`
 
-See repository information here: <https://pypi.org/project/nGauge/>
+Which will: <https://pypi.org/project/nGauge/>
 
 ### To install from source:
 
@@ -28,11 +34,13 @@ library path can be appended to the Blender path (`import sys; sys.path += ['<lo
 using `pip`, however support for this install method can not be provided.
   * For example, please see: `https://blender.stackexchange.com/questions/56011/how-to-install-pip-for-blenders-bundled-python`.
 
-## Example Usage
+## Citation
+
+nGauge has been submitted for publication. 
 
 ## Contact
-Logan Walker <loganaw@umich.edu>
-Jennifer Williams <jenwill@umich.edu>
+ * Logan Walker <loganaw@umich.edu>
+ * Dawen Cai <dwcai@umich.edu>
 
 ## License
 
