@@ -30,7 +30,7 @@ jobs:
         sudo apt install latexmk
     - name: Build manual
       run: |
-        cd doc
+        cd docsrc
         ls -alh
         make latexpdf
         ls -alh build/*
@@ -38,4 +38,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Manual as Built
-        path: /home/runner/work/nGauge/nGauge/doc/build/latex/nGauge.pdf
+        path: /home/runner/work/nGauge/nGauge/docsrc/build/latex/nGauge.pdf
