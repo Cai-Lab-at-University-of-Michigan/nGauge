@@ -8,8 +8,7 @@ HERE = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(HERE, "README.md")) as fid:
     README = fid.read()
 
-
-### Get version number
+# Get version number without fully loading module (lightweight)
 version = ""
 for line in open("ngauge/__init__.py"):
     if "__version__" in line:
@@ -23,7 +22,6 @@ for line in open("ngauge/__init__.py"):
 
 if not version:
     raise ValueError("No Version Detected!!!")
-###
 
 # This call to setup() does all the work
 setup(
@@ -40,7 +38,6 @@ setup(
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Science/Research",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-        "Natural Language :: English",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3 :: Only",
@@ -51,6 +48,5 @@ setup(
     ],
     packages=["ngauge"],
     include_package_data=True,
-    install_requires=["scipy", "numpy", "shapely"],
-    # entry_points={"console_scripts": ["realpython=reader.__main__:main"]},
+    install_requires=["scipy", "numpy", "shapely"]
 )
