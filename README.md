@@ -9,17 +9,20 @@ For example code and tutorials, please see the GitHub folder labeled ["tutorials
 ### Recommended Method (`pip`)
 
 If you have  `pip` and `python 3.x` installed already, nGauge can be installed by running the following command
-in the terminal:
-
-`pip install ngauge`
-
-Which will: <https://pypi.org/project/nGauge/>
+in the terminal: `pip install ngauge`. This will install the current release version of nGauge from the
+PyPi repository: <https://pypi.org/project/nGauge/>.
 
 ### To install from source:
 
-`pip install .`
+To install the development (source) version of nGauge to your local computer, follow these steps:
+
+1. Clone this GitHub repository: `git clone https://github.com/Cai-Lab-at-University-of-Michigan/nGauge.git`
+2. Change directory into the newly downloaded folder: `cd nGauge`
+3. Run the `pip` local installation script: `pip install .`
 
 ### Using with Blender
+
+Additional steps are required to utilize 
 
 By default, many versions (such as the version packaged with Ubuntu) of Blender
 support packages installed to the system Python library; in this case, no additional
@@ -36,7 +39,15 @@ using `pip`, however support for this install method can not be provided.
 
 ## Citation
 
-nGauge has been submitted for publication. 
+nGauge has been submitted for publication, but the preprint is currently available on bioRxiv: https://www.biorxiv.org/content/10.1101/2021.05.13.443832v2.abstract
+
+### Cite As:
+
+```
+nGauge: Integrated and extensible neuron morphology analysis in Python
+Logan A Walker, Jennifer S Williams, Ye Li, Douglas H Roossien, Nigel S Michki, Dawen Cai
+bioRxiv 2021.05.13.443832; doi: https://doi.org/10.1101/2021.05.13.443832
+```
 
 ## Contact
  * Logan Walker <loganaw@umich.edu>
