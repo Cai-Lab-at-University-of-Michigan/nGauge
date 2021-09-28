@@ -42,8 +42,8 @@ setup(
 	"License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
 	"Natural Language :: English",
 
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
 	"Programming Language :: Python :: 3 :: Only",
 
 	"Topic :: Scientific/Engineering :: Visualization",

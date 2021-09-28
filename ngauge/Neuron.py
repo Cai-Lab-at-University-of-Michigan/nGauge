@@ -57,11 +57,26 @@ class Neuron:
 
         for layer in self.soma_layers.values():
             if axis == "z":
-                ax.plot([i.x for i in layer], [i.y for i in layer], color=color, linewidth=linewidth)
+                ax.plot(
+                    [i.x for i in layer],
+                    [i.y for i in layer],
+                    color=color,
+                    linewidth=linewidth,
+                )
             elif axis == "x":
-                ax.plot([i.y for i in layer], [i.z for i in layer], color=color, linewidth=linewidth)
+                ax.plot(
+                    [i.y for i in layer],
+                    [i.z for i in layer],
+                    color=color,
+                    linewidth=linewidth,
+                )
             elif axis == "y":
-                ax.plot([i.x for i in layer], [i.z for i in layer], color=color, linewidth=linewidth)
+                ax.plot(
+                    [i.x for i in layer],
+                    [i.z for i in layer],
+                    color=color,
+                    linewidth=linewidth,
+                )
 
         for branch in self.branches:
             branch.plot(ax=ax, fig=fig, axis=axis, color=color, linewidth=linewidth)
@@ -1237,7 +1252,9 @@ class Neuron:
                 angles.append(ms.angle(i, i.parent, i.children[0]))
                 orders.append(len(i.children))
                 p.append(i.children[0])
-        return np.histogram2d( angles, orders, bins=bins, range=[[0, 180], [0, max(orders)]] )
+        return np.histogram2d(
+            angles, orders, bins=bins, range=[[0, 180], [0, max(orders)]]
+        )
 
     def path_angle_x_path_distance(self, bins=20):
         """Creates a 2D histogram of path angles as a function of path distances to the soma in microns
@@ -1313,7 +1330,9 @@ class Neuron:
         while p:
             i = p.pop()
             path_angle_x_path_dist_helper(i, angles, dist)
-        return np.histogram2d(dist, angles, bins=bins, range=[[0, max(sortDist)], [0, 180]])
+        return np.histogram2d(
+            dist, angles, bins=bins, range=[[0, max(sortDist)], [0, 180]]
+        )
 
     def thickness_x_branch_order(self, bins=20):
         """Creates 2D histogram of neurite radii as a function of branch orders (across all nodes)
@@ -1386,7 +1405,9 @@ class Neuron:
                 orders.append(1)
             if i.children:
                 q.extend(i)
-        return np.histogram2d(orders, radii, bins=bins, range=[[0, maxOrder], [0, maxRad]])
+        return np.histogram2d(
+            orders, radii, bins=bins, range=[[0, maxOrder], [0, maxRad]]
+        )
 
     def thickness_x_path_distance(self, bins=20):
         """Creates 2D histogram of neurite radii as a function of path distances to the soma in microns
@@ -1466,7 +1487,9 @@ class Neuron:
                 maxDist = length
             dist.append(length)
             q.extend(i2)
-        return np.histogram2d(dist, radii, bins=bins, range=[[0, maxDist], [0, maxRadii]])
+        return np.histogram2d(
+            dist, radii, bins=bins, range=[[0, maxDist], [0, maxRadii]]
+        )
 
     @staticmethod
     def from_swc(fname, force_format=True):
