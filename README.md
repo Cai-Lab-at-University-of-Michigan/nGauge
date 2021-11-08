@@ -33,12 +33,11 @@ Additional steps are required to utilize the Blender features of nGauge.
 First, blender must be installed using the directions from the developers (<https://www.blender.org/download/>).
 Only Blender versions newer than 2.8 are compatible due to changes in the Python API that nGauge utilizes.
 
-In the tutorials folder, a script to install and configure Blender with nGauge is provided as ["install_blender_ubuntu"](tutorials/install_blender_ubuntu).
+In the tutorials folder, instructions to install and configure Blender with nGauge is provided as ["install_blender_ubuntu"](tutorials/install_blender_ubuntu).
 If you do not use Ubuntu, please see below for alternative install options.
 
 By default, many versions of Blender support packages installed to the system Python
 library. In this case, no additional steps are required for setup.
-
 For Blender versions which do not share Python with the system-level install (such
 as Windows and `snap` versions), nGauge can be used with one of these two methods:
 
