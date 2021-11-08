@@ -26,18 +26,8 @@ author = "Logan Walker & Jennifer Williams"
 
 # The full version, including alpha/beta/rc tags
 
-#import ngauge
-#release = ngauge.__version__
-release = ""
-for line in open("../../ngauge/__init__.py"):
-    if "__version__" in line:
-        line = line.split("=")[1]
-        line = line.replace('"', "")
-        line = line.replace("'", "")
-        line = line.strip()
-
-        release = line
-        break
+import ngauge
+release = ngauge.__version__
 
 
 # -- General configuration ---------------------------------------------------
