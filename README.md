@@ -1,6 +1,8 @@
 # nGauge
 `nGauge` is a Python library which provides a collection of tools for the measurement, quantification, and visualization of neuron morphology. The library structure makes automation of data analysis pipelines easier, leading to faster and more reproducible results.
 
+[![Documentation Status](https://readthedocs.org/projects/ngauge/badge/?version=latest)](https://ngauge.readthedocs.io/en/latest/?badge=latest)
+
 ## Example Usage
 For example code and tutorials, please see the GitHub folder labeled ["tutorials"](tutorials/).
 
