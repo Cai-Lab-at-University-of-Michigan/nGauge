@@ -10,8 +10,6 @@ Welcome to nGauge's documentation!
    :maxdepth: 3
    :caption: Contents:
    
-
-   
 nGauge MODULES Reference
 ========================
 

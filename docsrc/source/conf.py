@@ -14,9 +14,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath("../../"))
-
-print("System Path:", sys.path)
-
+# print("System Path:", sys.path)
 
 # -- Project information -----------------------------------------------------
 
@@ -27,8 +25,8 @@ author = "Logan Walker & Jennifer Williams"
 # The full version, including alpha/beta/rc tags
 
 import ngauge
-release = ngauge.__version__
 
+release = ngauge.__version__
 
 # -- General configuration ---------------------------------------------------
 
@@ -44,7 +42,6 @@ templates_path = ["_templates"]
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = []
-
 
 # -- Options for HTML output -------------------------------------------------
 
