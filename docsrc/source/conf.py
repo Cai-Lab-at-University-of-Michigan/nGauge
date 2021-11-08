@@ -29,7 +29,7 @@ author = "Logan Walker & Jennifer Williams"
 #import ngauge
 #release = ngauge.__version__
 release = ""
-for line in open("ngauge/__init__.py"):
+for line in open("../../ngauge/__init__.py"):
     if "__version__" in line:
         line = line.split("=")[1]
         line = line.replace('"', "")
