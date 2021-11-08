@@ -2,7 +2,8 @@
 
 Using Blender with nGauge requires the installation of nGauge in one of the Python
 system paths which are accessible from Blender. In this example, I will show how to
-setup nGauge to work with Ubuntu 20.04 LTS.
+setup nGauge to work with Ubuntu 20.04 LTS. All commands listed here were verified
+to work on a clean install of Ubuntu with updated standard libraries in October of 2021.
 
 ## Install Python Libraries
 Run the following commands in the system terminal:
