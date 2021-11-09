@@ -1,11 +1,8 @@
-nGauge
-==================================
+.. mdinclude:: ../../README.md
 
 .. toctree::
    :maxdepth: 3
    :caption: Contents:
-
-.. mdinclude:: ../../README.md
    
 nGauge MODULES Reference
 ========================
