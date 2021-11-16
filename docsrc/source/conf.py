@@ -61,3 +61,5 @@ html_static_path = ["_static"]
 latex_elements = {"extraclassoptions": "openany,oneside"}
 
 master_doc = "index"
+
+html_sidebars = { '**': ['globaltoc.html', 'sourcelink.html', 'searchbox.html'] }
