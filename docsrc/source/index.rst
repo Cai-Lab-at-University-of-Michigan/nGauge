@@ -5,3 +5,7 @@
    :caption: Contents:
    
    modules
+
+   install_blender_ubuntu
+   
+   
