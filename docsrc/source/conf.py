@@ -62,4 +62,4 @@ latex_elements = {"extraclassoptions": "openany,oneside"}
 
 master_doc = "index"
 
-html_sidebars = { '**': ['globaltoc.html', 'sourcelink.html', 'searchbox.html'] }
+html_sidebars = { '**': ['localtoc.html', 'sourcelink.html', 'searchbox.html'] }
