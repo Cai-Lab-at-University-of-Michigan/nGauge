@@ -10,7 +10,6 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import ngauge
 import os
 import sys
 
@@ -25,6 +24,7 @@ author = "Logan Walker & Jennifer Williams"
 
 # The full version, including alpha/beta/rc tags
 
+import ngauge
 
 release = ngauge.__version__
 
@@ -33,7 +33,10 @@ release = ngauge.__version__
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx.ext.autodoc", "m2r2"]
+extensions = [
+    "sphinx.ext.autodoc",
+    "m2r2"
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -58,12 +61,3 @@ html_static_path = ["_static"]
 latex_elements = {"extraclassoptions": "openany,oneside"}
 
 master_doc = "index"
-
-html_sidebars = {
-    "**": [
-        "globaltoc.html",
-#        "relations.html",
-        "sourcelink.html",
-        "searchbox.html"
-        ]
-}
