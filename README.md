@@ -3,8 +3,31 @@
 
 [![Documentation Status](https://readthedocs.org/projects/ngauge/badge/?version=latest)](https://ngauge.readthedocs.io/en/latest/?badge=latest)
 
-## Example Usage
-For example code and tutorials, please see the GitHub folder labeled ["tutorials"](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials).
+## Quickstart
+
+```
+> pip install ngauge
+> neuron = ngauge.Neuron.from_swc('file.swc')
+
+> neuron
+
+``` 
+
+## Tutorials
+
+We have prepared several tutorials provided as either markdown manuals or jupyter notebook documents which cover the usage of nGauge in the GitHub folder labeled ["tutorials"](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials):
+
+- [Basic Usage](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/basic_usage)
+  - Builds on the "Quickstart" example above.
+- [Cell Type PCA](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/make_figure_five)
+  - Provides the complete code to replicate Figure 5 from the nGauge manuscript. In short, this involves running PCA on the quantification from two collections of cells.
+- [Installing inside of Blender on Linux](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/install_blender_ubuntu)
+  - See below for more details on installing nGauge with Blender
+- [Rendering a Neuron in Blender](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/render_neuron_blender)
+  - Provides an example of rendering the 
+- [Rendering microscopy data within Blender](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/render_neuron_blender)
+  - Provides an example of how to volumetrically render
+  - **WARNING**: This tutorial requires a powerful workstation and GPU due to the computational complexity of the ray tracing method used.
 
 ## Installation
 
@@ -26,13 +49,6 @@ To install the development (source) version of nGauge to your local computer, fo
 1. Clone this GitHub repository: `git clone https://github.com/Cai-Lab-at-University-of-Michigan/nGauge.git`
 2. Change directory into the newly downloaded folder: `cd nGauge`
 3. Run the `pip` local installation script: `pip install .`
-
-## Tutorials
-
-We have prepared several tutorials covering the usage of nGauge:
-
-- 
-- [Installing inside of Blender](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/install_blender_ubuntu) (See below)
 
 ## Using with Blender
 
