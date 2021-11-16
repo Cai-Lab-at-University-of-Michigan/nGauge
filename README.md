@@ -4,7 +4,7 @@
 [![Documentation Status](https://readthedocs.org/projects/ngauge/badge/?version=latest)](https://ngauge.readthedocs.io/en/latest/?badge=latest)
 
 ## Example Usage
-For example code and tutorials, please see the GitHub folder labeled ["tutorials"](tutorials/).
+For example code and tutorials, please see the GitHub folder labeled ["tutorials"](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials).
 
 ## Installation
 
@@ -33,7 +33,7 @@ Additional steps are required to utilize the Blender features of nGauge.
 First, blender must be installed using the directions from the developers (<https://www.blender.org/download/>).
 Only Blender versions newer than 2.8 are compatible due to changes in the Python API that nGauge utilizes.
 
-In the tutorials folder, instructions to install and configure Blender with nGauge is provided as ["install_blender_ubuntu"](tutorials/install_blender_ubuntu).
+In the tutorials folder, instructions to install and configure Blender with nGauge is provided as ["install_blender_ubuntu"](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/install_blender_ubuntu).
 If you do not use Ubuntu, please see below for alternative install options.
 
 By default, many versions of Blender support packages installed to the system Python
@@ -64,4 +64,4 @@ bioRxiv 2021.05.13.443832; doi: https://doi.org/10.1101/2021.05.13.443832
 
 ## License
 
-This code is licensed under the GNU General Public License v3.0, a copy of which is available in [LICENSE](LICENSE).
+This code is licensed under the GNU General Public License v3.0, a copy of which is available in [LICENSE](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/blob/master/LICENSE).

@@ -5,4 +5,3 @@
    :caption: Contents:
    
    modules.rst
-   modules.rst
