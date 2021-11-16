@@ -27,7 +27,14 @@ To install the development (source) version of nGauge to your local computer, fo
 2. Change directory into the newly downloaded folder: `cd nGauge`
 3. Run the `pip` local installation script: `pip install .`
 
-### Using with Blender
+## Tutorials
+
+We have prepared several tutorials covering the usage of nGauge:
+
+- 
+- [Installing inside of Blender](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/install_blender_ubuntu) (See below)
+
+## Using with Blender
 
 Additional steps are required to utilize the Blender features of nGauge.
 First, blender must be installed using the directions from the developers (<https://www.blender.org/download/>).
