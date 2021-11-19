@@ -1512,7 +1512,7 @@ class Neuron:
         with open(fname, "r") as f:
             for line in f:
                 line = line.strip()
-                if len(line) is 0:
+                if len(line) == 0:
                     continue
                 if line.startswith("#"):
                     metadata += line + "\n"
@@ -1598,7 +1598,7 @@ class Neuron:
         if True:
             for line in data:
                 line = line.strip()
-                if len(line) is 0:
+                if len(line) == 0:
                     continue
                 if line.startswith("#"):
                     metadata += line + "\n"
