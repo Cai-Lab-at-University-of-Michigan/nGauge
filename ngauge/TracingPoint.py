@@ -102,7 +102,7 @@ class TracingPoint:
         """
         import matplotlib as mpl
 
-        mpl.use("Agg")
+        #mpl.use("Agg")
         import matplotlib.pyplot as plt
         from matplotlib import collections as mc
 
