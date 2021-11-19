@@ -401,6 +401,16 @@ class Neuron:
                 out = branch
         return out
 
+    def all_branch_points(self):
+        """
+        :returns: 
+        """
+        out = []
+        for branch in self.branches:
+            out.extend( branch.get_bifurcation_nodes() )
+        return out
+
+
     def all_segment_lengths(self):
         """Creates sorted list of all segment lengths in a neuron`
 
@@ -501,7 +511,7 @@ class Neuron:
         out = self.all_path_angles()
         return max(out)
 
-    def all_branch_angles(n):
+    def all_branch_angles(self):
         """Creates a list with angles of all the branch points in a neuron in degrees between [0, 180]
 
         :param n: starting point for gathering branch point angles
@@ -558,7 +568,7 @@ class Neuron:
         out = self.all_branch_angles()
         return sum(out) / len(out)
 
-    def max_branch_angle(n):
+    def max_branch_angle(self):
         """Determines the maximal branch point angle in degrees between [0, 180]
 
         :returns: maximal branch angle
@@ -586,6 +596,14 @@ class Neuron:
 
     # def colless_index(self):
     #    return self.get_main_branch().colless_index()
+
+    def max_segment_length(self):
+        out = 0.0
+        for branch in self.branches:
+            for a,b in branch.get_all_segments():
+                out = max( a.path_dist_to_child(b), out )
+        return out
+
 
     def arbor_dist(self):
         """
@@ -731,7 +749,7 @@ class Neuron:
 
         Example:
             >>> neuron = from_swc("Example1.swc")
-            >>> all_neurites_tortuosities(neuron)
+            >>> neuron.all_neurites_tortuosities(neuron)
             [0.04134791479135339,
              0.05300604176745361,
              0.14956195330433844,
@@ -749,7 +767,7 @@ class Neuron:
 
         Example:
             >>> neuron = from_swc("Example1.swc")
-            >>> max_tortuosity(neuron)
+            >>> neuron.max_tortuosity(neuron)
             0.1884243736377227
         """
         return np.percentile(self.all_neurites_tortuosities(), 99.5)
@@ -762,7 +780,7 @@ class Neuron:
 
         Example:
             >>> neuron = from_swc("Example1.swc")
-            >>> median_tortuosity(neuron)
+            >>> neuron.median_tortuosity(neuron)
             0.14956195330433844
         """
         return statistics.median(self.all_neurites_tortuosities())
@@ -798,7 +816,8 @@ class Neuron:
             >>> neuron.branch_order_counts()
             [0, 0, 4]
         """
-        out = Counter([x.branching_order() for x in self.get_branch_points()])
+
+        out = Counter([x.branching_order() for x in self.all_branch_points()])
         return [out[i] for i in range(max(out.keys()) + 1)]
 
     def path_angles_histogram(self, bins=20):
