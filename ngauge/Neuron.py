@@ -525,7 +525,7 @@ class Neuron:
             >>> neuron.all_branch_angles()
             [90.8386644299175, 83.62062979155719, 83.62062979155719, 109.47122063449069]
         """
-        q = get_branch_points(self)
+        q = self.all_branch_points()
         out = []
         while q:
             i = q.pop()
@@ -756,7 +756,10 @@ class Neuron:
              0.15049238421642142,
              0.18919849587081047]
         """
-        return sorted([i.neurite_tortuosity() for i in self.get_tip_nodes()])
+        all_tip_nodes = []
+        for branch in self.branches:
+            all_tip_nodes.extend( branch.get_tip_nodes() )
+        return sorted([i.neurite_tortuosity() for i in all_tip_nodes])
 
     def max_tortuosity(self):
         """Determines the 99.5 percentile of log(tortuosity) across all neurites in a neuron

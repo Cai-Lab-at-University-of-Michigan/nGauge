@@ -489,11 +489,11 @@ class TracingPoint:
             0.04134791479135339
         """
         t = self
-        pathLength = 0
+        pathLength = 0.0
         while t.parent:
             pathLength += t.euclidean_dist(t.parent)
             t = t.parent
-        euclideanStartToEnd = euclidean_dist(t, self)
+        euclideanStartToEnd = self.euclidean_dist(t)
         return math.log10(pathLength / euclideanStartToEnd)
 
     def angle(self, a, b):
