@@ -16,13 +16,15 @@
 ## Tutorials
 
 We have prepared several tutorials provided as either markdown manuals or jupyter notebook documents which cover the usage of nGauge in the GitHub folder labeled ["tutorials"](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials):
-
 - [Basic Usage](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/basic_usage)
   - Builds on the "Quickstart" example above.
 - [Cell Type PCA](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/make_figure_five)
   - Provides the complete code to replicate Figure 5 from the nGauge manuscript. In short, this involves running PCA on the quantification from two collections of cells.
+
+There are also a collection of examples where are specific to using nGauge with Blender:
 - [Installing inside of Blender on Linux](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/install_blender_ubuntu)
   - See below for more details on installing nGauge with Blender
+- [Installing inside of Blender on Mac](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/install_blender_mac)
 - [Rendering a Neuron in Blender](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/render_neuron_blender)
   - Provides an example of rendering the 
 - [Rendering microscopy data within Blender](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/render_neuron_blender)
