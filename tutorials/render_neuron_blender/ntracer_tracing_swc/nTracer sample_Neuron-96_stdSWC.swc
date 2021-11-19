@@ -1,0 +1,36 @@
+# CREATION_DATE 2021-01-20
+# nTracer sample_Neuron-96_stdSWC.swc
+# CREATED BY nTracer1.0
+# Dawen Cai, University of Michigan (dwcai@umich.edu)
+# 
+# (x, y, z) resolutions = (0.1, 0.1, 0.3) um/pixel 
+# standard SWC format (n T x y z R P)
+# n = point indentifier
+# T = type indentifier:
+#  0 = undefined; 1 = soma; 2 = axon; 3 = (basal) dendrite;
+#  4 = apical dendrite; 5 = fork point; 6 = end point; 7 = spine
+# x, y, z = cartesian coordinates (um)
+# R = radius at the point (um)
+# P = parent point; P = -1 indicates the origin point
+
+1 2 39.9 48.9 0.3 0.0 -1
+2 2 39.9 48.8 0.3 0.0 1
+3 2 40.0 48.9 0.3 0.0 2
+4 2 40.1 48.9 0.3 0.0 3
+5 2 40.2 48.9 0.3 0.0 4
+6 2 40.3 48.9 0.3 0.0 5
+7 2 40.4 48.8 0.3 0.0 6
+8 2 40.5 48.8 0.6 0.0 7
+9 2 40.6 48.8 0.6 0.0 8
+10 2 40.7 48.8 0.6 0.0 9
+11 2 40.8 48.8 0.9 0.0 10
+12 2 40.9 48.7 0.9 0.0 11
+13 2 41.0 48.7 0.9 0.0 12
+14 2 41.1 48.6 1.2 0.0 13
+15 2 41.2 48.6 1.2 0.0 14
+16 2 41.3 48.6 1.2 0.0 15
+17 2 41.4 48.5 1.2 0.0 16
+18 2 41.5 48.5 1.5 0.0 17
+19 2 41.6 48.5 1.5 0.0 18
+20 2 41.7 48.5 1.5 0.0 19
+21 6 41.8 48.5 1.8 0.0 20
