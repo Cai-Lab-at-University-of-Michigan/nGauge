@@ -23,12 +23,12 @@ We have prepared several tutorials provided as either markdown manuals or jupyte
 
 There are also a collection of examples where are specific to using nGauge with Blender:
 - [Installing inside of Blender on Linux](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/install_blender_ubuntu)
-  - See below for more details on installing nGauge with Blender
+  - See below for more details on installing nGauge with Blender.
 - [Installing inside of Blender on Mac](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/install_blender_mac)
 - [Rendering a Neuron in Blender](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/render_neuron_blender)
-  - Provides an example of rendering the 
+  - Provides an example of rendering a small neural network inside of Blender with nGauge.
 - [Rendering microscopy data within Blender](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/render_neuron_blender)
-  - Provides an example of how to volumetrically render
+  - Provides an example of how to volumetrically render microscopy data, as was used in Figure 8C of our manuscript.
   - **WARNING**: This tutorial requires a powerful workstation and GPU due to the computational complexity of the ray tracing method used.
 
 ## Installation
