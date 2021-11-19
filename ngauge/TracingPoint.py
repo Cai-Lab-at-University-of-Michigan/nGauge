@@ -527,8 +527,8 @@ class TracingPoint:
             >>> ba.angle(p1, p2)
             109.47122063449069
         """
-        ax, ay, az = a.x - branchPoint.x, a.y - branchPoint.y, a.z - branchPoint.z
-        bx, by, bz = b.x - branchPoint.x, b.y - branchPoint.y, b.z - branchPoint.z
+        ax, ay, az = a.x - self.x, a.y - self.y, a.z - self.z
+        bx, by, bz = b.x - self.x, b.y - self.y, b.z - self.z
         magA = (ax ** 2 + ay ** 2 + az ** 2) ** 0.5
         magB = (bx ** 2 + by ** 2 + bz ** 2) ** 0.5
         if magA == 0 or magB == 0:
@@ -538,7 +538,7 @@ class TracingPoint:
         rad = dotProduct / (magA * magB)
         rad = min(rad, 1)
         rad = max(rad, -1)
-        return m.acos(rad) * (180 / math.pi)
+        return math.acos(rad) * (180 / math.pi)
 
     '''def sackin_index(self):
         """
