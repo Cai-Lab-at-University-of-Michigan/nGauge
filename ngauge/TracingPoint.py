@@ -117,8 +117,6 @@ class TracingPoint:
                 (node.x, node.y, node.z, node.parent.x, node.parent.y, node.parent.z)
             )
 
-        # for ix,iy,iz,jx,jy,jz in segments:
-        #    ax.plot( [ix, jx], [iy, jy], color=color )
         lc = None
         if axis == "z":
             lc = mc.LineCollection(
@@ -184,12 +182,6 @@ class TracingPoint:
         out += ")"
 
         return out
-
-    # def __copy__(self):
-    #    return self
-
-    # def __setattr__(self, name, value):
-    #    self.__dict__[name] = value
 
     def __iter__(self):
         return iter(self.children)
@@ -482,10 +474,10 @@ class TracingPoint:
 
         Example:
             >>> neuron = from_swc("Example1.swc")
-            >>> dq = get_tip_nodes(neuron)
+            >>> dq = neuron.get_tip_nodes()
             >>> dq[0]
             TracingPoint(x=-3.0, y=3.0, z=1.5, r=1.0, t=3, parent=TracingPoint(x=-2.0, y=2.0, z=1.0, r=1.0, t=3, children=[{ 2, truncated }], parent={...}))
-            >>> neurite_tortuosity(dq[0])
+            >>> dq[0].neurite_tortuosity()
             0.04134791479135339
         """
         t = self
@@ -552,21 +544,6 @@ class TracingPoint:
             out += sum(1 for i in tip.get_path_to_root() if i.is_bif())
         return out / n'''
 
-    '''
-    def colless_index(self):
-        """
-        Calculates the Sackin index of a given branch
-
-        See: https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0224197"""
-        out, l = 0.0, len(self.get_tip_nodes())
-        n = ((2.483) ** (l)) * ((l) ** (-3.0 / 2.0))
-        for bif in self.get_bifurcation_nodes():
-            out += abs(
-                bif.children[0].total_tip_nodes() - bif.children[1].total_tip_nodes()
-            )
-        return (2.0 * out) / ((n - 1) * (n - 2))
-    '''
-
     @staticmethod
     def slice_surface_area(points):
         """
@@ -617,11 +594,6 @@ class TracingPoint:
         todo = queue([self])
         memory = {None: -1}  # track line numbers of each element
         out = []
-
-        # tail = self.farthest_tip()
-        #        while tail is not self:
-        # todo.appendleft( tail )
-        #           tail = tail.parent
 
         while todo:
             a = todo.pop()

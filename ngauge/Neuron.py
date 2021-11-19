@@ -749,7 +749,7 @@ class Neuron:
 
         Example:
             >>> neuron = from_swc("Example1.swc")
-            >>> neuron.all_neurites_tortuosities(neuron)
+            >>> neuron.all_neurites_tortuosities()
             [0.04134791479135339,
              0.05300604176745361,
              0.14956195330433844,
