@@ -1,41 +1,27 @@
 shader volumeTexture(
-  point Vector = P,
-//  int num_planes = 1,
-  int z_frame = 0,
-  int max_frame = 0,
-  int min_frame = 0,
-  output color colorData = 1,
-  output float nonColorData = 1,
-  ){
+    point Vector = P,
+    int z_frame = 0,
+    int max_frame = 0,
+    int min_frame = 0,
+    output color colorData = 1,
+    output float nonColorData = 1, )
+{
     float x = Vector[0];
     float y = Vector[1];
-    //float z = Vector[2];
-    
-    //int pos = (int)(z*num_planes);
-    //if( pos < 0 ) pos = 0;
-    //if( pos >= num_planes - 1 ) pos = num_planes-1;
-    
-    
-//    if (pos < 0 || pos >= num_planes) {
-//        colorData = 0; // Changed -1 -> 0 to get transparency instead of black
-//        nonColorData = 0;
-//        return;
-//    }
-    
-    // Modify the lines below for your path and filenames
-//    string path  = "/home/mnt/test_nas/logan/ye_swc/test_sequence/";
 
     int to_write = z_frame;
 
     //if( to_write > num_planes - 1 ) to_write = num_planes - 1;
-    if( to_write < min_frame ) to_write = min_frame;
-    if( to_write > max_frame ) to_write = max_frame;
+    if (to_write < min_frame)
+        to_write = min_frame;
+    if (to_write > max_frame)
+        to_write = max_frame;
 
-    string path  = "/mnt/sonic/logan/ye_swc/image_sequence_6tile/";
-    string file  = format("img%04d.png", to_write );
+    string path = "/mnt/sonic/logan/ye_swc/image_sequence_6tile/";
+    string file = format("img%04d.png", to_write);
     string fname = concat(path, file);
 
-    colorData    = texture(fname, x, y);
+    colorData = texture(fname, x, y);
     nonColorData = 0;
     //nonColorData = texture(fname, x, 1.0 - y);
 }
