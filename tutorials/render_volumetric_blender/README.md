@@ -26,6 +26,10 @@ will vary:
 **Versions that do *not* have OSL**
 - Binaries available from Ubuntu `apt` repository
 
+## Precreated Model
+I have uploaded a blender file `volume_render.blend` which has this turorial precreated inside of it. You will still need to change the file path in the OSL script
+to a slice-separated image (see below) before it works.
+
 ## Running this code
 1. Download the nTracer example image from our lab website (https://www.cai-lab.org/ntracer-tutorial).
     - This process should work with other images, but we recommend testing with a small image first, due to the computational complexity of the process.
