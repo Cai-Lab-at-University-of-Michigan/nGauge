@@ -1,24 +1,14 @@
 shader volumeTexture(
     point Vector = P,
-    int z_frame = 0,
-    int max_frame = 0,
-    int min_frame = 0,
     output color colorData = 1,
     output float nonColorData = 1, )
 {
     float x = Vector[0];
     float y = Vector[1];
+    int to_write = Vector[2];
 
-    int to_write = z_frame;
-
-    //if( to_write > num_planes - 1 ) to_write = num_planes - 1;
-    if (to_write < min_frame)
-        to_write = min_frame;
-    if (to_write > max_frame)
-        to_write = max_frame;
-
-    string path = "/mnt/sonic/logan/ye_swc/image_sequence_6tile/";
-    string file = format("img%04d.png", to_write);
+    string path = "/Users/loganaw/Desktop/nTracer_sample/slices/";
+    string file = format("nTracer_sample-%05d.png", to_write);
     string fname = concat(path, file);
 
     colorData = texture(fname, x, y);
