@@ -55,11 +55,11 @@ An outline of the different columns is below:
     2. `Subtract` is used to locate a single voxel by subtracting the offset of the object.
     3. `Separate XYZ` turns the vector into its components.
     4. `Multiply` is used to scale each components (the XY coordinates should stay the same with different images, but they Z is approximately 1/2 the number of z slices).
-    6. `Add` is used to offset the z-slice indexing by 10,000, to offset the image indexing (this is optional based on your image names).
-    7. `Combine XYZ` turns these individual coordinates back to one vector.
-    8. `Script` is used to execute a OSL shader, with the script you created above selected.
-    9. `Gamma` is optional, but allows you to apply a gamma correction to the image.
-    10. `Material Output` sends the shader to the object.
+    5. `Add` is used to offset the z-slice indexing by 10,000, to offset the image indexing (this is optional based on your image names).
+    6. `Combine XYZ` turns these individual coordinates back to one vector.
+    7. `Script` is used to execute a OSL shader, with the script you created above selected.
+    8. `Gamma` is optional, but allows you to apply a gamma correction to the image.
+    9. `Material Output` sends the shader to the object.
         - If you apply the shader to the "Surface" output, the cube will render as a hollow object, and only the edges will be rendered.
         This is usually what you want, as it has some performance benefits.
         - If you apply the shader to the "Volume" output, the cube will render as a solid block. Depending on your opacity
