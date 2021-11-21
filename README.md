@@ -10,7 +10,6 @@
 > neuron = ngauge.Neuron.from_swc('file.swc')
 
 > neuron
-
 ``` 
 
 ## Tutorials
