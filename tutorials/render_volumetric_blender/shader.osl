@@ -13,5 +13,4 @@ shader volumeTexture(
 
     colorData = texture(fname, x, y);
     nonColorData = 0;
-    //nonColorData = texture(fname, x, 1.0 - y);
 }
