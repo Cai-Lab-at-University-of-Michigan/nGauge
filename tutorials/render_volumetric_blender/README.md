@@ -28,7 +28,7 @@ will vary:
 
 ## Precreated Model
 I have uploaded a blender file `volume_render.blend` which has this turorial precreated inside of it. You will still need to change the file path in the OSL script
-to a slice-separated image (see below) before it works.
+to a slice-separated image (see below) before it will work, however.
 
 ## Running this code
 1. Download the nTracer example image from our lab website (https://www.cai-lab.org/ntracer-tutorial).
