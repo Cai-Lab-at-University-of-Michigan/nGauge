@@ -7,7 +7,7 @@ shader volumeTexture(
     float y = Vector[1];
     int to_write = Vector[2];
 
-    string path = "/Users/loganaw/Desktop/nTracer_sample/slices/";
+    string path = "[YOUR FILE PATH HERE]";
     string file = format("nTracer_sample-%05d.png", to_write);
     string fname = concat(path, file);
 
