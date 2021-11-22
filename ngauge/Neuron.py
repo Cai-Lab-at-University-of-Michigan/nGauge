@@ -1116,7 +1116,7 @@ class Neuron:
         orders = self.all_branch_orders()
         angles = self.all_branch_angles()
         return np.histogram2d(
-            orders, angles, bins=bins, range=[[0, n.max_branch_order()], [0, 180]]
+            orders, angles, bins=bins, range=[[0, max(orders)], [0, 180]]
         )
 
     def branch_angles_x_path_distances(self, bins=20, maxDist=None):
