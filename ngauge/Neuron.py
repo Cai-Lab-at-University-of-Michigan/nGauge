@@ -1048,7 +1048,7 @@ class Neuron:
             >>> neuron.all_branch_orders()
                 [2, 2, 2, 2]
         """
-        q = self.get_branch_points()
+        q = self.all_branch_points()
         out = []
         while q:
             i = q.pop()
@@ -1181,13 +1181,13 @@ class Neuron:
                      99., 108., 117., 126., 135., 144., 153., 162., 171., 180.]))
         """
         angles = self.all_branch_angles()
-        q = self.get_branch_points()
+        q = self.all_branch_points()
         dist = []
         while q:
             i = q.pop()
             length = 0
             while i.parent:
-                length += ms.euclidean_distance(i, i.parent)
+                length += i.euclidean_dist(i.parent)
                 i = i.parent
             dist.append(length)
         distSorted = sorted(dist)
@@ -1265,11 +1265,11 @@ class Neuron:
             i = p.pop()
             if i.children and len(i.children) > 1:
                 for j in range(len(i.children)):
-                    angles.append(ms.angle(i, i.parent, i.children[j]))
+                    angles.append(i.angle(i.parent, i.children[j]))
                     orders.append(len(i.children))
                     p.append(i.children[j])
             elif i.children:
-                angles.append(ms.angle(i, i.parent, i.children[0]))
+                angles.append(i.angle(i.parent, i.children[0]))
                 orders.append(len(i.children))
                 p.append(i.children[0])
         return np.histogram2d(
