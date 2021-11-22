@@ -390,6 +390,7 @@ class Neuron:
         """
         :returns: The longest branch from the :class:`Neuron`
         :note: Returns `None` if there are no branches in this :class:`Neuron`
+        :param strahler: Default `True`. Determines if a strahler-order mechanism should be used to determine main branch
         :rtype: `int`
         """
         if strahler:
