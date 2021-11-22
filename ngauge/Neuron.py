@@ -937,104 +937,104 @@ class Neuron:
         ]
         return np.histogram(out, bins=bins, range=(0, out[-1]))
 
-    def sholl_intersection(self, steps=36, proj="xy"):
-        """Creates a numpy array for the Sholl Intersection, which is all intersections at
-           different radii a certain number of steps away from center of input
+    # def sholl_intersection(self, steps=36, proj="xy"):
+    #     """Creates a numpy array for the Sholl Intersection, which is all intersections at
+    #        different radii a certain number of steps away from center of input
 
-        :param steps: number of steps desired between center and maximal neurite point
-        :type steps: `int`
+    #     :param steps: number of steps desired between center and maximal neurite point
+    #     :type steps: `int`
 
-        :param proj: which plane circle is located on
-        :type: `string`
+    #     :param proj: which plane circle is located on
+    #     :type: `string`
 
-        :returns: `numpy.array` consisting of `tuples` with radii position (`float`) and
-                  number of intersections (`int`)
-        :rtype: `numpy.ndarray`
+    #     :returns: `numpy.array` consisting of `tuples` with radii position (`float`) and
+    #               number of intersections (`int`)
+    #     :rtype: `numpy.ndarray`
 
-        Example:
-            >>> neuron = from_swc("Example1.swc")
-            >>> neuron.sholl_intersection()
-            array([[0.15713484, 1.        ],
-                   [0.31426968, 1.        ],
-                   [0.47140452, 1.        ],
-                   [0.62853936, 1.        ],
-                   [0.7856742 , 1.        ],
-                   [0.94280904, 1.        ],
-                   [1.09994388, 2.        ],
-                   [1.25707872, 2.        ],
-                   [1.41421356, 2.        ],
-                   [1.5713484 , 2.        ],
-                   [1.72848324, 2.        ],
-                   [1.88561808, 2.        ],
-                   [2.04275292, 2.        ],
-                   [2.19988776, 2.        ],
-                   [2.3570226 , 2.        ],
-                   [2.51415744, 2.        ],
-                   [2.67129228, 2.        ],
-                   [2.82842712, 3.        ],
-                   [2.98556197, 4.        ],
-                   [3.14269681, 4.        ],
-                   [3.29983165, 2.        ],
-                   [3.45696649, 2.        ],
-                   [3.61410133, 2.        ],
-                   [3.77123617, 2.        ],
-                   [3.92837101, 2.        ],
-                   [4.08550585, 2.        ],
-                   [4.24264069, 3.        ],
-                   [4.39977553, 2.        ],
-                   [4.55691037, 1.        ],
-                   [4.71404521, 1.        ],
-                   [4.87118005, 1.        ],
-                   [5.02831489, 1.        ],
-                   [5.18544973, 1.        ],
-                   [5.34258457, 1.        ],
-                   [5.49971941, 1.        ],
-                   [5.65685425, 1.        ]])
-        """
-        # determine center based on input
-        center = self.soma_centroid()
-        if proj == "xy":
-            center = Point(center[0], center[1])
-        elif proj == "yz":
-            center = Point(center[1], center[2])
-        elif proj == "xz":
-            center = Point(center[0], center[2])
-        else:
-            raise AttributeError("proj must be either xy, yz, or xz")
+    #     Example:
+    #         >>> neuron = from_swc("Example1.swc")
+    #         >>> neuron.sholl_intersection()
+    #         array([[0.15713484, 1.        ],
+    #                [0.31426968, 1.        ],
+    #                [0.47140452, 1.        ],
+    #                [0.62853936, 1.        ],
+    #                [0.7856742 , 1.        ],
+    #                [0.94280904, 1.        ],
+    #                [1.09994388, 2.        ],
+    #                [1.25707872, 2.        ],
+    #                [1.41421356, 2.        ],
+    #                [1.5713484 , 2.        ],
+    #                [1.72848324, 2.        ],
+    #                [1.88561808, 2.        ],
+    #                [2.04275292, 2.        ],
+    #                [2.19988776, 2.        ],
+    #                [2.3570226 , 2.        ],
+    #                [2.51415744, 2.        ],
+    #                [2.67129228, 2.        ],
+    #                [2.82842712, 3.        ],
+    #                [2.98556197, 4.        ],
+    #                [3.14269681, 4.        ],
+    #                [3.29983165, 2.        ],
+    #                [3.45696649, 2.        ],
+    #                [3.61410133, 2.        ],
+    #                [3.77123617, 2.        ],
+    #                [3.92837101, 2.        ],
+    #                [4.08550585, 2.        ],
+    #                [4.24264069, 3.        ],
+    #                [4.39977553, 2.        ],
+    #                [4.55691037, 1.        ],
+    #                [4.71404521, 1.        ],
+    #                [4.87118005, 1.        ],
+    #                [5.02831489, 1.        ],
+    #                [5.18544973, 1.        ],
+    #                [5.34258457, 1.        ],
+    #                [5.49971941, 1.        ],
+    #                [5.65685425, 1.        ]])
+    #     """
+    #     # determine center based on input
+    #     center = self.soma_centroid()
+    #     if proj == "xy":
+    #         center = Point(center[0], center[1])
+    #     elif proj == "yz":
+    #         center = Point(center[1], center[2])
+    #     elif proj == "xz":
+    #         center = Point(center[0], center[2])
+    #     else:
+    #         raise AttributeError("proj must be either xy, yz, or xz")
 
-        # fills lines with all the segments in our neuron or tracing point
-        out = deque()
-        for branch in self.branches:
-            out.extend(branch.get_tip_nodes())
+    #     # fills lines with all the segments in our neuron or tracing point
+    #     out = deque()
+    #     for branch in self.branches:
+    #         out.extend(branch.get_tip_nodes())
 
-        coord = []
-        while out:
-            i = out.pop()
-            if i.parent:
-                if proj == "xy":
-                    coord.append(((i.x, i.y), (i.parent.x, i.parent.y)))
-                elif proj == "yz":
-                    coord.append(((i.y, i.z), (i.parent.y, i.parent.z)))
-                else:
-                    coord.append(((i.x, i.z), (i.parent.x, i.parent.z)))
-                out.append(i.parent)
-        lines = MultiLineString(coord)
+    #     coord = []
+    #     while out:
+    #         i = out.pop()
+    #         if i.parent:
+    #             if proj == "xy":
+    #                 coord.append(((i.x, i.y), (i.parent.x, i.parent.y)))
+    #             elif proj == "yz":
+    #                 coord.append(((i.y, i.z), (i.parent.y, i.parent.z)))
+    #             else:
+    #                 coord.append(((i.x, i.z), (i.parent.x, i.parent.z)))
+    #             out.append(i.parent)
+    #     lines = MultiLineString(coord)
 
-        # determines how many intersections occur at each location
-        maxPoint = Point(lines.bounds[2], lines.bounds[3])
-        line = LineString([center, maxPoint])
-        intersect = []
-        for i in range(1, steps + 1):
-            r = (line.length / steps) * i
-            c = center.buffer(r).boundary
-            i = c.intersection(lines)
-            if type(i) is Point:
-                intersect.append((r, 1))
-            elif type(i) is LineString:
-                intersect.append((r, 1))
-            else:
-                intersect.append((r, len(i)))
-        return np.array(intersect)
+    #     # determines how many intersections occur at each location
+    #     maxPoint = Point(lines.bounds[2], lines.bounds[3])
+    #     line = LineString([center, maxPoint])
+    #     intersect = []
+    #     for i in range(1, steps + 1):
+    #         r = (line.length / steps) * i
+    #         c = center.buffer(r).boundary
+    #         i = c.intersection(lines)
+    #         if type(i) is Point:
+    #             intersect.append((r, 1))
+    #         elif type(i) is LineString:
+    #             intersect.append((r, 1))
+    #         else:
+    #             intersect.append((r, len(i)))
+    #     return np.array(intersect)
 
     def all_branch_orders(self):
         """Creates a list with all the branch orders of all bifurcation points in neuron
@@ -1050,8 +1050,7 @@ class Neuron:
         q = self.all_branch_points()
         out = []
         while q:
-            i = q.pop()
-            out.append(len(i.children))
+            out.append(q.pop().branching_order())
         return out
 
     def branch_angles_x_branch_orders(self, bins=20):
