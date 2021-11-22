@@ -386,18 +386,21 @@ class Neuron:
                 out = max(out, node.branching_order())
         return out
 
-    def get_main_branch(self):
+    def get_main_branch(self, strahler=True):
         """
         :returns: The longest branch from the :class:`Neuron`
         :note: Returns `None` if there are no branches in this :class:`Neuron`
         :rtype: `int`
         """
-        out, m = None, 0
-        for branch in self.branches:
-            if branch.total_child_nodes() > m:
-                m = branch.total_child_nodes()
-                out = branch
-        return out
+        if strahler:
+            pass
+        else:
+            out, m = None, 0
+            for branch in self.branches:
+                if branch.total_child_nodes() > m:
+                    m = branch.total_child_nodes()
+                    out = branch
+            return out
 
     def all_branch_points(self):
         """
@@ -816,6 +819,25 @@ class Neuron:
 
         out = Counter([x.branching_order() for x in self.all_branch_points()])
         return [out[i] for i in range(max(out.keys()) + 1)]
+
+    def branch_order_histogram(self, bins=20):
+        """Creates a histogram (an array of counts and an array of edges) of all
+           branch orders with a default of 20 bins between [0, 180] degrees
+
+        :param bins: number of bins for histogram to have
+        :type bins: `int`
+
+        :returns: histogram of all branch orders
+        :rtype: `tuple` two `numpy.array`, one with counts and one with edge values
+
+        Example:
+            >>> neuron = from_swc("Example1.swc")
+            >>> neuron.branch_order_histogram()
+            (array([0, 0, 0, 0, 0, 0, 0, 1, 0, 2, 0, 0, 2, 0, 1, 0, 0, 0, 1, 1]),
+             array([  0.,   9.,  18.,  27.,  36.,  45.,  54.,  63.,  72.,  81.,  90.,
+                    99., 108., 117., 126., 135., 144., 153., 162., 171., 180.]))
+        """
+        return np.histogram(self.all_branch_orders(), bins=bins, range=(0, 180))
 
     def path_angles_histogram(self, bins=20):
         """Creates a histogram (an array of counts and an array of edges) of all path angles with
