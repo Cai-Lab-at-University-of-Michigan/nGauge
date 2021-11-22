@@ -1192,7 +1192,7 @@ class Neuron:
                 i = i.parent
             dist.append(length)
         distSorted = sorted(dist)
-        maxDist = maxDist if (maxDist is None) else distSorted[-1]
+        maxDist = maxDist if (maxDist is not None) else distSorted[-1]
         return np.histogram2d(dist, angles, bins=bins, range=[[0, maxDist], [0, 180]])
 
     def path_angle_x_branch_order(self, bins=20):
