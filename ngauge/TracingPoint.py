@@ -101,8 +101,6 @@ class TracingPoint:
         :return: a matplotlib `Figure` object which has been rendered.
         """
         import matplotlib as mpl
-
-        #mpl.use("Agg")
         import matplotlib.pyplot as plt
         from matplotlib import collections as mc
 
@@ -271,6 +269,10 @@ class TracingPoint:
         while out[-1].parent is not None:
             out.append(out[-1].parent)
         return out
+
+    def euclidean_dist_to_root(self):
+        root_path = self.get_path_to_root()
+        return self.euclidean_dist(root_path[-1])
 
     def path_dist_to_root(self):
         """

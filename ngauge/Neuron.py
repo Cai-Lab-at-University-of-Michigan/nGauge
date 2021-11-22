@@ -405,9 +405,8 @@ class Neuron:
         """
         out = []
         for branch in self.branches:
-            out.extend( branch.get_bifurcation_nodes() )
+            out.extend(branch.get_bifurcation_nodes())
         return out
-
 
     def all_segment_lengths(self):
         """Creates sorted list of all segment lengths in a neuron`
@@ -598,10 +597,9 @@ class Neuron:
     def max_segment_length(self):
         out = 0.0
         for branch in self.branches:
-            for a,b in branch.get_all_segments():
-                out = max( a.path_dist_to_child(b), out )
+            for a, b in branch.get_all_segments():
+                out = max(a.path_dist_to_child(b), out)
         return out
-
 
     def arbor_dist(self):
         """
@@ -660,8 +658,6 @@ class Neuron:
         :returns: Nothing
         :rtype: `None`
         """
-        import numpy as np
-
         rot = rotation_matrix(z, y, x)
         for pt in self.iter_all_points():
             coords = rot.dot(np.array([pt.x, pt.y, pt.z]))
@@ -756,7 +752,7 @@ class Neuron:
         """
         all_tip_nodes = []
         for branch in self.branches:
-            all_tip_nodes.extend( branch.get_tip_nodes() )
+            all_tip_nodes.extend(branch.get_tip_nodes())
         return sorted([i.neurite_tortuosity() for i in all_tip_nodes])
 
     def max_tortuosity(self):
@@ -930,15 +926,14 @@ class Neuron:
 
         Example:
             >>> neuron = from_swc("Example1.swc")
-            >>> neuron.euclidean_distances_to_soma()
+            >>> neuron.euclidean_distances_to_soma_histogram()
             (array([0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 0, 0, 1, 1]),
              array([0.   , 0.225, 0.45 , 0.675, 0.9  , 1.125, 1.35 , 1.575, 1.8  ,
                     2.025, 2.25 , 2.475, 2.7  , 2.925, 3.15 , 3.375, 3.6  , 3.825,
                     4.05 , 4.275, 4.5  ]))
         """
         out = [
-            i.euclidean_distances_to_soma()
-            for i in self.iter_all_points(exclude_soma=True)
+            i.euclidean_dist_to_root() for i in self.iter_all_points(exclude_soma=True)
         ]
         return np.histogram(out, bins=bins, range=(0, out[-1]))
 
@@ -1004,10 +999,14 @@ class Neuron:
             center = Point(center[1], center[2])
         elif proj == "xz":
             center = Point(center[0], center[2])
-        raise AttributeError("proj must be either xy, yz, or xz")
+        else:
+            raise AttributeError("proj must be either xy, yz, or xz")
 
         # fills lines with all the segments in our neuron or tracing point
-        out = self.get_tip_nodes(a)
+        out = deque()
+        for branch in self.branches:
+            out.extend(branch.get_tip_nodes())
+
         coord = []
         while out:
             i = out.pop()
@@ -1126,6 +1125,7 @@ class Neuron:
         :param bins: number of bins for histogram to have
         :param maxDist: maximum distance for the histogram, by default selects the maximum distance
         :type bins: `int`
+        :type maxDist: `float`
 
         :returns: 2D histogram of branch angles as a function of path distances
         :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
@@ -1283,6 +1283,8 @@ class Neuron:
 
         :param bins: number of bins for histogram to have
         :type bins: `int`
+        :param maxDist: maximum distance for the calculation of the histogram
+        :type maxDist: `float`
 
         :returns: 2D histogram of path angles as a function of path distances
         :rtype: `tuple` of three `numpy.array`, respectively histogram, x edges, and y edges
@@ -1340,19 +1342,20 @@ class Neuron:
              array([  0.,   9.,  18.,  27.,  36.,  45.,  54.,  63.,  72.,  81.,  90.,
                      99., 108., 117., 126., 135., 144., 153., 162., 171., 180.]))
         """
-        q = deque(self)
-        p = deque()
         angles = []
-        dist = []
-        maxLen = 0
-        while q:
-            it = q.pop()
-            p.extend(it)
-        while p:
-            i = p.pop()
-            path_angle_x_path_dist_helper(i, angles, dist)
+        path_dists = []
+
+        for branch in self.branches:
+            for tp in branch.get_all_nodes():
+                if tp.is_tip() or tp.is_root():
+                    continue
+                pdtr = tp.path_dist_to_root()
+                for child in tp.children:
+                    angles.append(tp.angle(child, tp.parent))
+                    path_dists.append(pdtr)
+        maxDist = maxDist if (maxDist is not None) else max(path_dists)
         return np.histogram2d(
-            dist, angles, bins=bins, range=[[0, max(sortDist)], [0, 180]]
+            path_dists, angles, bins=bins, range=[[0, maxDist], [0, 180]]
         )
 
     def thickness_x_branch_order(self, bins=20):
