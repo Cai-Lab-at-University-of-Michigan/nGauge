@@ -1045,7 +1045,7 @@ class Neuron:
         Example:
             >>> neuron = from_swc("Example1.swc")
             >>> neuron.all_branch_orders()
-                [2, 2, 2, 2]
+                [3,3,2,1]
         """
         q = self.all_branch_points()
         out = []
