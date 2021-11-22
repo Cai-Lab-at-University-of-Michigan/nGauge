@@ -393,15 +393,13 @@ class Neuron:
         :param strahler: Default `True`. Determines if a strahler-order mechanism should be used to determine main branch
         :rtype: `int`
         """
-        if strahler:
-            pass
-        else:
-            out, m = None, 0
-            for branch in self.branches:
-                if branch.total_child_nodes() > m:
-                    m = branch.total_child_nodes()
-                    out = branch
-            return out
+        out, m = None, 0 
+        for branch in self.branches:
+            met = branch.total_tip_nodes() if strahler else branch.total_child_nodes()
+            if met > m:
+                m = met
+                out = branch
+        return out
 
     def all_branch_points(self):
         """
