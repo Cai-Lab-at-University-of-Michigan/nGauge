@@ -46,8 +46,6 @@ class Neuron:
         """
 
         import matplotlib as mpl
-
-        # mpl.use("Agg")
         import matplotlib.pyplot as plt
 
         if not ax and not fig:
