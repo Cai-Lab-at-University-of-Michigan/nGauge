@@ -1119,11 +1119,12 @@ class Neuron:
             orders, angles, bins=bins, range=[[0, n.max_branch_order()], [0, 180]]
         )
 
-    def branch_angles_x_path_distances(self, bins=20):
+    def branch_angles_x_path_distances(self, bins=20, maxDist=None):
         """Creates a 2D histogram of branch angles as a function of path distances to the soma in
                 microns (across all branch points) with default bins of 20
 
         :param bins: number of bins for histogram to have
+        :param maxDist: maximum distance for the histogram, by default selects the maximum distance
         :type bins: `int`
 
         :returns: 2D histogram of branch angles as a function of path distances
@@ -1191,7 +1192,7 @@ class Neuron:
                 i = i.parent
             dist.append(length)
         distSorted = sorted(dist)
-        maxDist = distSorted[-1]
+        maxDist = maxDist if (maxDist is None) else distSorted[-1]
         return np.histogram2d(dist, angles, bins=bins, range=[[0, maxDist], [0, 180]])
 
     def path_angle_x_branch_order(self, bins=20):
@@ -1276,7 +1277,7 @@ class Neuron:
             angles, orders, bins=bins, range=[[0, 180], [0, max(orders)]]
         )
 
-    def path_angle_x_path_distance(self, bins=20):
+    def path_angle_x_path_distance(self, bins=20, maxDist=None):
         """Creates a 2D histogram of path angles as a function of path distances to the soma in microns
            (across all nodes) with default bins of 20
 
