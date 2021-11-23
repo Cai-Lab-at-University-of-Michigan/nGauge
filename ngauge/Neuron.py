@@ -232,6 +232,15 @@ class Neuron:
         :note: This may yield low accuracy if there are few Z-slices traced
         :rtype: `dict` mapping z-values to `float`
         """
+        if len(self.soma_layers) == 0:
+            return 0
+        elif len(self.soma_layers) == 1:
+            out = 0.0
+            for layer in self.soma_layers.values():
+                for pt in layer:
+                    out += (4/3) * math.pi * (pt.r**3.0)
+            return out
+
         ssa = self.slice_surface_areas()
         total, z_height = 0.0, 0.0
 
@@ -261,14 +270,20 @@ class Neuron:
         :note: This may yield low accuracy if there are few Z-slices traced or if the tracing is incomplete
         :rtype: `float`
         """
+        if len(self.soma_layers) == 0:
+            return 0
+        elif len(self.soma_layers) == 1:
+            out = 0.0
+            for layer in self.soma_layers.values():
+                for pt in layer:
+                    out += 4 * math.pi * (pt.r**2.0)
+            return out
+
         sp = self.slice_perimeters()
         ssa = self.slice_surface_areas()
         total, z_height = 0.0, 0.0
 
         z_indices = list(sorted(sp.keys()))
-        if len(z_indices) <= 1:
-            raise ValueError("Can not calculate volume of 1-slice soma")
-
         for i, z in enumerate(z_indices):
             if i == 0 or i == len(z_indices) - 1:  # first or last iteration
                 total += ssa[z]  # top/bottom area
