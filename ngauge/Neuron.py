@@ -172,82 +172,40 @@ class Neuron:
         """
         return self.total_bif_nodes()
 
+    def total_dim(self, dim, percentile=None):
+        """
+        :param dim: `str` describing what dim to perform the analysis on
+        :returns: the span of all coordinates in the direction `dim`
+        :rtype `numeric`, inherited from coordinates:
+        """
+        vals = [getattr(x,dim) for x in self.iter_all_points()]
+        if percentile is None:
+            return max(vals)-min(vals)
+        else:
+            percentile = (100 - percentile)/2 # 2.5
+            minmax = np.percentile(vals, [percentile, 100-percentile])
+            return minmax[1] - minmax[0]
+
     def total_width(self, percentile=None):
         """
         :returns: The width of the smallest bounding box required to encapsulate this :class:`Neuron`
         :rtype: `numeric`, inherited from :attr:`x`
         """
-        min_x, max_x = None, None
-        for z, layer in self.soma_layers.items():
-            for pt in layer:
-                if min_x is None:
-                    min_x = pt.x
-                    max_x = pt.x
-                else:
-                    min_x = min(pt.x, min_x)
-                    max_x = max(pt.x, max_x)
-        for branch in self.branches:
-            q = deque([branch])
-            while q:
-                i = q.pop()
-                if min_x is None:  # needed in case no soma points
-                    min_x = i.x
-                    max_x = i.x
-                min_x = min(i.x, min_x)
-                max_x = max(i.x, max_x)
-                q.extend(iter(i))
-        return max_x - min_x
+        return self.total_dim('x', percentile=percentile)
 
-    def total_height(self):
+    def total_height(self, percentile=None):
         """
         :returns: The height of the smallest bounding box required to encapsulate this :class:`Neuron`
         :rtype: `numeric`, inherited from :attr:`y`
         """
-        min_y, max_y = None, None
-        for z, layer in self.soma_layers.items():
-            for pt in layer:
-                if min_y is None:
-                    min_y = pt.y
-                    max_y = pt.y
-                else:
-                    min_y = min(pt.y, min_y)
-                    max_y = max(pt.y, max_y)
-        for branch in self.branches:
-            q = deque([branch])
-            while q:
-                i = q.pop()
-                if min_y is None:  # needed in case no soma points
-                    min_y = i.x
-                    max_y = i.x
-                min_y = min(i.y, min_y)
-                max_y = max(i.y, max_y)
-                q.extend(iter(i))
-        return max_y - min_y
+        return self.total_dim('y', percentile=percentile)
 
-    def total_depth(self):
+    def total_depth(self, percentile=None):
         """
         :returns: The depth of the smallest bounding box required to encapsulate this :class:`Neuron`
         :rtype: `numeric`, inherited from :attr:`z`
         """
-        min_z, max_z = None, None
-        for z, layer in self.soma_layers.items():
-            if min_z is None:
-                min_z = z
-                max_z = z
-            else:
-                min_z = min(z, min_z)
-                max_z = max(z, max_z)
-        for branch in self.branches:
-            q = deque([branch])
-            while q:
-                i = q.pop()
-                if min_z is None:  # needed in case no soma points
-                    min_z = i.x
-                    max_z = i.x
-                min_z = min(i.z, min_z)
-                max_z = max(i.z, max_z)
-                q.extend(iter(i))
-        return max_z - min_z
+        return self.total_dim('z',percentile=percentile)
 
     def slice_surface_areas(self):
         """
