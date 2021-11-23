@@ -19,6 +19,16 @@ We have prepared several tutorials provided as either markdown manuals or jupyte
   - Builds on the "Quickstart" example above.
 - [Cell Type PCA](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/make_figure_five)
   - Provides the complete code to replicate Figure 5 from the nGauge manuscript. In short, this involves running PCA on the quantification from two collections of cells.
+- [Comparing LMeasure and nGauge](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/comparison_figure)
+  - Provides the complete code for the nGauge vs. LMeasure comparison figure.
+- [Calculating Histograms](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/histogram_figure)
+  - Shows how the 2D histogram figure in the nGauge manuscript was
+  created.
+- [Rasterize Neuron](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/rasterize_neuron)
+  - Provides an example of how you could "rasterize" a neuron into a 
+  volumetric TIFF file.
+- [Test all Functions](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/test_all_functions)
+  - Runs a script that executes (almost) all nGauge functions.
 
 There are also a collection of examples where are specific to using nGauge with Blender:
 - [Installing inside of Blender on Linux](https://github.com/Cai-Lab-at-University-of-Michigan/nGauge/tree/master/tutorials/install_blender_ubuntu)
@@ -71,6 +81,9 @@ library path can be appended to the Blender path by appending this to the runtim
 2. It is also possible to directly install packages to the Blender Python libary
 using `pip`, however support for this install method can not be provided.
   * For example, please see: <https://blender.stackexchange.com/questions/56011/how-to-install-pip-for-blenders-bundled-python>.
+
+## Need Help?
+Open a GitHub "Issue" with any feaure requests or questions!
 
 ## Citation
 
