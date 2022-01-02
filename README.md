@@ -3,6 +3,10 @@
 
 [![Documentation Status](https://readthedocs.org/projects/ngauge/badge/?version=latest)](https://ngauge.readthedocs.io/en/latest/?badge=latest)
 
+## Module Reference Guide
+
+Click [HERE](https://ngauge.readthedocs.io/en/latest/modules.html) to go to a list of all modules and their methods.
+
 ## Quickstart
 
 ```
