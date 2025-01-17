@@ -80,6 +80,32 @@ class Neuron:
             branch.plot(ax=ax, fig=fig, axis=axis, color=color, linewidth=linewidth)
 
         return fig
+    
+    def plot3d(self, fig=None, ax=None, color='blue', linewidth=1):
+        """Draws this Neuron as a figure in 3D"""
+
+        import matplotlib as mpl
+        import matplotlib.pyplot as plt
+
+        if not ax and not fig:
+            fig = plt.figure()
+            ax = fig.add_subplot(111, projection='3d')
+            ax.set_aspect("equal")
+
+        for layer in self.soma_layers.values():
+            ax.plot(
+                [i.x for i in layer],
+                [i.y for i in layer],
+                zs=[i.z for i in layer],
+                color=color,
+                linewidth=linewidth
+            )
+
+        for branch in self.branches:
+            branch.plot3d(ax=ax, fig=fig, axis=axis, color=color, linewidth=linewidth)
+
+        return fig
+
 
     def fix_parents(self):
         for child in self.branches:
