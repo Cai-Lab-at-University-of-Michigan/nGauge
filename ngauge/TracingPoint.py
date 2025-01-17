@@ -139,6 +139,26 @@ class TracingPoint:
 
         return fig
 
+    def plot3d(self, ax=None, fig=None, color="blue", linewidth=1):
+        """Draws this TracingPoint as a figure in 3d"""
+
+        import matplotlib as mpl
+        import matplotlib.pyplot as plt
+
+        if not ax and not fig:
+            fig = plt.figure()
+            ax = fig.add_subplot(111, projection="3d")
+            ax.set_aspect("equal")
+
+        for node in self.select_nodes(lambda x: x.parent is not None):
+            ax.plot(
+                [node.x, node.parent.x],
+                [node.y, node.parent.y],
+                zs=[node.z, node.parent.z],
+                color=color,
+                linewidth=linewidth,
+            )
+
     def add_child(self, toadd):
         """Add a child node to a given TracingPoint
 
@@ -523,8 +543,8 @@ class TracingPoint:
         """
         ax, ay, az = a.x - self.x, a.y - self.y, a.z - self.z
         bx, by, bz = b.x - self.x, b.y - self.y, b.z - self.z
-        magA = (ax ** 2 + ay ** 2 + az ** 2) ** 0.5
-        magB = (bx ** 2 + by ** 2 + bz ** 2) ** 0.5
+        magA = (ax**2 + ay**2 + az**2) ** 0.5
+        magB = (bx**2 + by**2 + bz**2) ** 0.5
         if magA == 0 or magB == 0:
             return 180
 
