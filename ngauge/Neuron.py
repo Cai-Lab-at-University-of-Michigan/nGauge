@@ -102,7 +102,7 @@ class Neuron:
             )
 
         for branch in self.branches:
-            branch.plot3d(ax=ax, fig=fig, axis=ax, color=color, linewidth=linewidth)
+            branch.plot3d(ax=ax, fig=fig, color=color, linewidth=linewidth)
 
         return fig
 
