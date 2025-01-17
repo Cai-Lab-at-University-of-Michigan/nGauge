@@ -80,8 +80,8 @@ class Neuron:
             branch.plot(ax=ax, fig=fig, axis=axis, color=color, linewidth=linewidth)
 
         return fig
-    
-    def plot3d(self, fig=None, ax=None, color='blue', linewidth=1):
+
+    def plot3d(self, fig=None, ax=None, color="blue", linewidth=1):
         """Draws this Neuron as a figure in 3D"""
 
         import matplotlib as mpl
@@ -89,7 +89,7 @@ class Neuron:
 
         if not ax and not fig:
             fig = plt.figure()
-            ax = fig.add_subplot(111, projection='3d')
+            ax = fig.add_subplot(111, projection="3d")
             ax.set_aspect("equal")
 
         for layer in self.soma_layers.values():
@@ -98,14 +98,13 @@ class Neuron:
                 [i.y for i in layer],
                 zs=[i.z for i in layer],
                 color=color,
-                linewidth=linewidth
+                linewidth=linewidth,
             )
 
         for branch in self.branches:
-            branch.plot3d(ax=ax, fig=fig, axis=axis, color=color, linewidth=linewidth)
+            branch.plot3d(ax=ax, fig=fig, axis=ax, color=color, linewidth=linewidth)
 
         return fig
-
 
     def fix_parents(self):
         for child in self.branches:
@@ -204,12 +203,12 @@ class Neuron:
         :returns: the span of all coordinates in the direction `dim`
         :rtype `numeric`, inherited from coordinates:
         """
-        vals = [getattr(x,dim) for x in self.iter_all_points()]
+        vals = [getattr(x, dim) for x in self.iter_all_points()]
         if percentile is None:
-            return max(vals)-min(vals)
+            return max(vals) - min(vals)
         else:
-            percentile = (100 - percentile)/2 # 2.5
-            minmax = np.percentile(vals, [percentile, 100-percentile])
+            percentile = (100 - percentile) / 2  # 2.5
+            minmax = np.percentile(vals, [percentile, 100 - percentile])
             return minmax[1] - minmax[0]
 
     def total_width(self, percentile=None):
@@ -217,21 +216,21 @@ class Neuron:
         :returns: The width of the smallest bounding box required to encapsulate this :class:`Neuron`
         :rtype: `numeric`, inherited from :attr:`x`
         """
-        return self.total_dim('x', percentile=percentile)
+        return self.total_dim("x", percentile=percentile)
 
     def total_height(self, percentile=None):
         """
         :returns: The height of the smallest bounding box required to encapsulate this :class:`Neuron`
         :rtype: `numeric`, inherited from :attr:`y`
         """
-        return self.total_dim('y', percentile=percentile)
+        return self.total_dim("y", percentile=percentile)
 
     def total_depth(self, percentile=None):
         """
         :returns: The depth of the smallest bounding box required to encapsulate this :class:`Neuron`
         :rtype: `numeric`, inherited from :attr:`z`
         """
-        return self.total_dim('z',percentile=percentile)
+        return self.total_dim("z", percentile=percentile)
 
     def slice_surface_areas(self):
         """
@@ -264,7 +263,7 @@ class Neuron:
             out = 0.0
             for layer in self.soma_layers.values():
                 for pt in layer:
-                    out += (4/3) * math.pi * (pt.r**3.0)
+                    out += (4 / 3) * math.pi * (pt.r**3.0)
             return out
 
         ssa = self.slice_surface_areas()
@@ -392,7 +391,7 @@ class Neuron:
         :param strahler: Default `True`. Determines if a strahler-order mechanism should be used to determine main branch
         :rtype: `int`
         """
-        out, m = None, 0 
+        out, m = None, 0
         for branch in self.branches:
             met = branch.total_tip_nodes() if strahler else branch.total_child_nodes()
             if met > m:
@@ -402,7 +401,7 @@ class Neuron:
 
     def all_branch_points(self):
         """
-        :returns: 
+        :returns:
         """
         out = []
         for branch in self.branches:
